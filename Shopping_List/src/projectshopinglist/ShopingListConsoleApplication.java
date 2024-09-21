@@ -1,4 +1,4 @@
-package project.shopinglist;
+package projectshopinglist;
 
 import java.util.Scanner;
 
