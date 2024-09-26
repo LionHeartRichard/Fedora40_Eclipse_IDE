@@ -1,4 +1,4 @@
-package projectshopinglist;
+package shopeconsoleapplication;
 
 import java.util.Scanner;
 
