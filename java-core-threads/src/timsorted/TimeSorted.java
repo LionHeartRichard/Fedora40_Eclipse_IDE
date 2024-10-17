@@ -8,72 +8,70 @@ import supporting.BigArray;
 
 public class TimeSorted {
 
-	private static final int THRESHOLD = 32;
+	private final int THRESHOLD = 32;
 
-	public void timSorted(int[] array) {
-		int n = array.length;
+	public void sort(int[] arr) {
+		int n = arr.length;
 		for (int i = 0; i < n; i += THRESHOLD) {
-			int lengthSorted = Math.min(n, i + THRESHOLD);
-			insertionSorted(array, i, lengthSorted);
+			insertionSort(arr, i, Math.min(n, i + THRESHOLD));
 		}
 
 		for (int size = THRESHOLD; size < n; size *= 2) {
 			for (int begin = 0; begin < n; begin += size * 2) {
-				int mid = begin + size - 1;
-				int end = Math.min(n - 1, begin + size * 2 - 1);
+				int mid = begin + size;
+				int end = Math.min(n, mid + size);
 
 				if (mid < end) {
-					merge(array, begin, mid, end);
+					merge(arr, begin, mid, end);
 				}
 			}
 		}
 	}
 
-	private void insertionSorted(int[] array, int begin, int n) {
-		int i, j, temp;
+	private void insertionSort(int[] arr, int begin, int n) {
+		int i, j, tmp;
 		for (i = begin + 1; i < n; ++i) {
 			j = i - 1;
-			temp = array[i];
-			while (j >= begin && array[j] > temp) {
-				array[j + 1] = array[j--];
+			tmp = arr[i];
+			while (j >= begin && arr[j] > tmp) {
+				arr[j + 1] = arr[j--];
 			}
-			array[++j] = temp;
+			arr[++j] = tmp;
 		}
 	}
 
-	private void merge(int[] array, int begin, int mid, int end) {
+	private void merge(int[] arr, int begin, int mid, int end) {
 		int i, j, k;
-		int n1 = mid - begin + 1;
+		int n1 = mid - begin;
 		int n2 = end - mid;
 
 		int[] left = new int[n1];
 		int[] right = new int[n2];
 
 		for (i = 0; i < n1; ++i) {
-			left[i] = array[i + begin];
+			left[i] = arr[begin + i];
 		}
 
 		for (j = 0; j < n2; ++j) {
-			right[j] = array[j + mid + 1];
+			right[j] = arr[mid + j];
 		}
-
 		i = 0;
 		j = 0;
 		k = begin;
-
 		while (i < n1 && j < n2) {
 			if (left[i] <= right[j]) {
-				array[k++] = left[i++];
+				arr[k++] = left[i++];
 			} else {
-				array[k++] = right[j++];
+				arr[k++] = right[j++];
 			}
 		}
 
 		while (i < n1) {
-			array[k++] = left[i++];
+			arr[k++] = left[i++];
 		}
+
 		while (j < n2) {
-			array[k++] = right[j++];
+			arr[k++] = right[j++];
 		}
 	}
 
@@ -84,7 +82,7 @@ public class TimeSorted {
 		int[] expected = Arrays.copyOf(actual, actual.length);
 		Arrays.sort(expected);
 
-		timSorted(actual);
+		sort(actual);
 		assertArrayEquals(expected, actual);
 	}
 
@@ -92,7 +90,7 @@ public class TimeSorted {
 	public void test2() {
 		int[] actual = { 5, 1, 6, 2, 3, 4 };
 		int[] expected = { 1, 2, 3, 4, 5, 6 };
-		timSorted(actual);
+		sort(actual);
 		assertArrayEquals(expected, actual);
 	}
 
@@ -105,7 +103,7 @@ public class TimeSorted {
 				4, 5, 1, 6, 2, 3, 4, 5, 1, 6, 2, 3, 4, 5, 1, 6, 2, 3, 4, 5, 1, 6, 2, 3, 4, 5, 1, 6, 2, 3, 4 };
 		int[] expected = Arrays.copyOf(actual, actual.length);
 		Arrays.sort(expected);
-		timSorted(actual);
+		sort(actual);
 		assertArrayEquals(expected, actual);
 	}
 
@@ -113,7 +111,7 @@ public class TimeSorted {
 	public void testBigArray() {
 		BigArray supportObject = new BigArray();
 		int[] array = supportObject.getBigArrays();
-		timSorted(array);
+		sort(array);
 		int[] expected = Arrays.copyOf(array, array.length);
 		Arrays.sort(expected);
 		assertArrayEquals(expected, array);
