@@ -1,9 +1,10 @@
-package sorting.impl;
+package topalgorithm.sorting.impl;
 
-import sorting.ArraySort;
+import topalgorithm.sorting.ArraySort;
 
-public class HeapArraySort<T extends Number & Comparable> {
+public class HeapArraySort<T extends Number & Comparable> implements ArraySort {
 
+	@Override
 	public void sort(T[] arr) {
 		int n = arr.length;
 
