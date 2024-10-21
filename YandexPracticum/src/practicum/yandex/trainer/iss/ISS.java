@@ -4,9 +4,10 @@ class ISS extends Mir {
 	// доступ к изменению параметров запрещён
 	public ISS(double initialOxygenLevel, double initialEnergyLevel, double initialFuel) {
 
+		super.oxygenLevel = initialEnergyLevel / 2;
+		super.energyReserve = initialEnergyLevel + 15.0;
+
 		// требуется увеличить уровень кислорода и энергетических резервов
-		oxygenLevel = initialOxygenLevel;
-		energyReserve = initialEnergyLevel;
 
 		// доступ к изменению полей запрещён
 		fuel = initialFuel;
@@ -21,7 +22,19 @@ class ISS extends Mir {
 		stabilize();
 	}
 
+	/*
+	 * Ожидалось стабилизация. Выводится модуль Ожидалось малыми. Выводится
+	 * пристыкован Ожидалось двигателями. Выводится проверка Ожидалось стабилизация.
+	 * Выводится систем Ожидалось малыми. Выводится уровень
+	 */
+
 	// получен доступ к переопределению метода стабилизации
+	@Override
+	void stabilize() {
+		while (vibration > 1.0) {
+			stabilizeBySmallEngines();
+		}
+	}
 
 	// доступ к изменению метода запрещён
 	private void connectOxygenCableTo(Zvezda module) {
