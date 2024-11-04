@@ -9,24 +9,22 @@ class Practicum {
 		Guest guest2 = new Guest("Екатерина", "Майская");
 		VipGuest guest3 = new VipGuest("Иван", "Комаров");
 
-		ArrayList<Guest> allGuests = new ArrayList<>();
-		allGuests.add(guest1);
-		allGuests.add(guest2);
-		allGuests.add(guest3);
+		ArrayList<Guest> guests = new ArrayList<>();
+		guests.add(guest1);
+		guests.add(guest2);
 
-		ArrayList<VipGuest> vipGuests = new ArrayList<>();
-		vipGuests.add(guest3);
+		ArrayList<VipGuest> bestFriends = new ArrayList<>();
+		bestFriends.add(guest3);
 
-		// создаём список любых гостей
+		// создаём список гостей с использованием wildcard
 		GuestsList<Guest> allGuestsList = new GuestsList<>();
-		allGuestsList.invite(allGuests);
-		allGuestsList.printAllGuests();
 
-		// создаём список VIP-гостей
-		GuestsList<VipGuest> vipGuestsList = new GuestsList<>();
-		// добавить можно только ArrayList из VIP-гостей
-		vipGuestsList.invite(vipGuests);
-		vipGuestsList.printAllGuests();
+		// приглашаем обычных гостей
+		allGuestsList.invite(guests);
+		// приглашаем лучших друзей
+		allGuestsList.invite(bestFriends);
+
+		allGuestsList.printAllGuests();
 
 	}
 }
@@ -59,10 +57,9 @@ class VipGuest extends Guest {
 }
 
 class GuestsList<T extends Guest> {
-
 	ArrayList<T> guests = new ArrayList<>();
 
-	public void invite(ArrayList<T> guestsToInvite) {
+	public void invite(ArrayList<? extends T> guestsToInvite) {
 		for (T guest : guestsToInvite) {
 			guests.add(guest);
 		}
