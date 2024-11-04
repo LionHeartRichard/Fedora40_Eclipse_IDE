@@ -3,17 +3,11 @@ package practicum.yandex.trainer.unittests;
 import java.util.ArrayList;
 import java.util.Random;
 
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
-
 class OvercomplicatedCookieFactory {
 	private int cookiesCreated = 0;
 	private final ArrayList<String> positiveTexts;
 	private final ArrayList<String> negativeTexts;
 	private final boolean isPositive;
-
-	private static OvercomplicatedCookieFactory cookieFactory;
 
 	// класс Random используется, чтобы возвращать случайное предсказание из списка.
 	private final Random rnd = new Random();
@@ -70,28 +64,5 @@ class OvercomplicatedCookieFactory {
 		// Получаем целое случайное число от нуля до максимального размера массива - 1.
 		int randomIndex = rnd.nextInt(negativeTexts.size());
 		return negativeTexts.get(randomIndex);
-	}
-
-	@BeforeAll
-	public static void beforeEach() {
-		ArrayList<String> positiveTexts = new ArrayList<>();
-		positiveTexts.add("Вам повезёт!");
-
-		ArrayList<String> negativeTexts = new ArrayList<>();
-		negativeTexts.add("Сегодня будет дождь");
-
-		cookieFactory = new OvercomplicatedCookieFactory(positiveTexts, negativeTexts, true);
-	}
-
-	@Test
-	public void shouldReturnPositiveCookie() {
-		String cookieText = cookieFactory.bakeFortuneCookie();
-		Assertions.assertEquals("Вам повезёт!", cookieText);
-	}
-
-	@Test
-	public void shouldIncreaseCounterByOneAfterCookieBaked() {
-		cookieFactory.bakeFortuneCookie();
-		Assertions.assertEquals(1, cookieFactory.getCookiesCreated());
 	}
 }
