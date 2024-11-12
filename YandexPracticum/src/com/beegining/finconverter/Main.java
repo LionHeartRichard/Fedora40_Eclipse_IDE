@@ -1,6 +1,5 @@
 package com.beegining.finconverter;
 
-import java.util.Random;
 import java.util.Scanner;
 
 public class Main {

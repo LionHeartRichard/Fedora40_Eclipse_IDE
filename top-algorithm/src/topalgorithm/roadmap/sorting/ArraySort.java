@@ -1,4 +1,4 @@
-package topalgorithm.sorting;
+package topalgorithm.roadmap.sorting;
 
 public interface ArraySort {
 	void sort(int[] arr);

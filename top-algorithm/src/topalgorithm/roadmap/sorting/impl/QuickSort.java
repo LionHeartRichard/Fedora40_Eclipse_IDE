@@ -1,8 +1,8 @@
-package topalgorithm.sorting.impl;
+package topalgorithm.roadmap.sorting.impl;
 
-import topalgorithm.sorting.ArraySort;
+import topalgorithm.roadmap.sorting.ArraySort;
 
-public class HeapSort implements ArraySort {
+public class QuickSort implements ArraySort {
 
 	@Override
 	public void sort(int[] arr) {
