@@ -7,7 +7,7 @@ import java.util.Random;
 public class GenerateItemsForBigArray {
 
 	private static String FILE_NAME = "/home/kerrigan_kein/Documents/bigArray.txt";
-	private static int LEN_ARRAY = 5_000_000;
+	private static int LEN_ARRAY = 10_000_000;
 
 	public static void main(String[] args) throws IOException {
 		Random random = new Random();
