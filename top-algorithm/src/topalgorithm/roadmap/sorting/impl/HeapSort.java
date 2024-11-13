@@ -1,6 +1,5 @@
 package topalgorithm.roadmap.sorting.impl;
 
-
 import topalgorithm.roadmap.sorting.ArraySort;
 
 public class HeapSort implements ArraySort {
@@ -8,14 +7,15 @@ public class HeapSort implements ArraySort {
 	@Override
 	public void sort(int[] arr) {
 		int len = arr.length;
+
 		for (int idx = len / 2 - 1; idx >= 0; --idx) {
 			heapify(arr, len, idx);
 		}
 
 		for (int idx = len - 1; idx >= 0; --idx) {
-			int swap = arr[0];
+			int swapItem = arr[0];
 			arr[0] = arr[idx];
-			arr[idx] = swap;
+			arr[idx] = swapItem;
 
 			heapify(arr, idx, 0);
 		}
@@ -32,9 +32,10 @@ public class HeapSort implements ArraySort {
 			currentIdx = rightIdx;
 
 		if (idx != currentIdx) {
-			int swap = arr[idx];
+			int swapItem = arr[idx];
 			arr[idx] = arr[currentIdx];
-			arr[currentIdx] = swap;
+			arr[currentIdx] = swapItem;
+
 			heapify(arr, len, currentIdx);
 		}
 	}

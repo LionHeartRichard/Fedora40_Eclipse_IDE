@@ -10,15 +10,14 @@ public class TimSorted implements ArraySort {
 	public void sort(int[] arr) {
 		int len = arr.length;
 		for (int beginIdx = 0; beginIdx < len; beginIdx += THRESHOLD) {
-			int lengthEnd = Math.min(len, beginIdx + THRESHOLD);
-			insertionSort(arr, beginIdx, lengthEnd);
+			int endLen = Math.min(len, beginIdx + THRESHOLD);
+			insertionSort(arr, beginIdx, endLen);
 		}
 
 		for (int sizeSubarray = THRESHOLD; sizeSubarray < len; sizeSubarray *= 2) {
 			for (int beginIdx = 0; beginIdx < len; beginIdx += sizeSubarray * 2) {
-
 				int midIdx = beginIdx + sizeSubarray - 1;
-				int endIdx = Math.min(beginIdx + sizeSubarray * 2 - 1, len - 1);
+				int endIdx = Math.min(midIdx + sizeSubarray, len - 1);
 
 				if (midIdx < endIdx) {
 					merge(arr, beginIdx, midIdx, endIdx);
@@ -27,18 +26,16 @@ public class TimSorted implements ArraySort {
 		}
 	}
 
-	private void insertionSort(int[] arr, int beginIdx, int lengthEnd) {
-		int currentIdx, swapIdx, tempElement;
+	private void insertionSort(int[] arr, int beginIdx, int endLen) {
+		int pivotItem, fastIdx, slowIdx;
+		for (slowIdx = beginIdx + 1; slowIdx < endLen; ++slowIdx) {
+			pivotItem = arr[slowIdx];
+			fastIdx = slowIdx - 1;
 
-		for (currentIdx = beginIdx + 1; currentIdx < lengthEnd; ++currentIdx) {
-
-			tempElement = arr[currentIdx];
-			swapIdx = currentIdx - 1;
-
-			while (swapIdx >= beginIdx && arr[swapIdx] > tempElement) {
-				arr[swapIdx + 1] = arr[swapIdx--];
+			while (fastIdx >= beginIdx && pivotItem < arr[fastIdx]) {
+				arr[fastIdx + 1] = arr[fastIdx--];
 			}
-			arr[++swapIdx] = tempElement;
+			arr[++fastIdx] = pivotItem;
 		}
 	}
 
