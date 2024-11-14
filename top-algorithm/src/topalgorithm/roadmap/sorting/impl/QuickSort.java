@@ -32,15 +32,15 @@ public class QuickSort implements ArraySort {
 
 		for (int idx = begin; idx <= end; ++idx) {
 			if (arr[idx] < pivotItem) {
-				int swap = arr[currentIdx];
+				int swapItem = arr[currentIdx];
 				arr[currentIdx++] = arr[idx];
-				arr[idx] = swap;
+				arr[idx] = swapItem;
 			}
 		}
 
-		int swap = arr[currentIdx];
+		int swapItem = arr[currentIdx];
 		arr[currentIdx] = arr[end];
-		arr[end] = swap;
+		arr[end] = swapItem;
 		return currentIdx;
 	}
 
