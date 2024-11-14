@@ -34,9 +34,19 @@ public class FastAndSlowPointer {
 	}
 
 	@Test
-	public void fastAndSlowPointerTest() {
+	public void fastAndSlowPointerTestWhen7Items() {
 		int[] actual = { 2, 0, 0, 9, 3, 0, 1 };
 		int[] expected = { 2, 9, 3, 1, 0, 0, 0 };
+
+		fastAndSlowPointer(actual);
+
+		assertArrayEquals(expected, actual);
+	}
+
+	@Test
+	public void fastAndSlowPointerTest() {
+		int[] actual = { 2, 3, 0, 9, 3, 0, 1 };
+		int[] expected = { 2, 3, 9, 3, 1, 0, 0 };
 
 		fastAndSlowPointer(actual);
 
