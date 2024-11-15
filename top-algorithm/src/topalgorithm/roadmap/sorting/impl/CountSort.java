@@ -7,6 +7,9 @@ import org.junit.jupiter.api.Test;
 
 public class CountSort {
 
+	// time O[1]
+	// memory O[1]
+
 	private int[] arrayCounterLettersNoCapital = new int[26];
 
 	public boolean isAnagram(String strA, String strB) {

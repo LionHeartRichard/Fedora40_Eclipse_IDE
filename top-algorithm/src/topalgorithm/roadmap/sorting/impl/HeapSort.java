@@ -3,6 +3,9 @@ package topalgorithm.roadmap.sorting.impl;
 import topalgorithm.roadmap.sorting.ArraySort;
 
 public class HeapSort implements ArraySort {
+	
+	//time: O [N log N]
+	//memory: O [N log N]
 
 	@Override
 	public void sort(int[] arr) {
