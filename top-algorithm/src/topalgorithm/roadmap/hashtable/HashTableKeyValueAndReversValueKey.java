@@ -12,7 +12,7 @@ import java.util.Set;
 
 import org.junit.jupiter.api.Test;
 
-public class HashTableKeyValueAndReversValueKey {
+public class HashTableKeyValueAndReversValueKey implements HashTable {
 
 	/*
 	 * Алгоритм когда мы заполняем мапу ключь-значение а потом переворачиваем
