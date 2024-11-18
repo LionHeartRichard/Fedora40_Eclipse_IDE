@@ -1,12 +1,12 @@
 package topalgorithm.roadmap.hashtable.lru;
 
-import java.util.LinkedList;
-import java.util.Map;
-import java.util.Optional;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
+//import java.util.LinkedList;
+//import java.util.Map;
+//import java.util.Optional;
+//import java.util.concurrent.locks.ReentrantReadWriteLock;
 
-public class LRUCache<K, V> implements Cache<K, V> {
-
+public class LRUCache<K, V>  {//implements Cache<K, V>
+/*
 	private int size;
 	private final Map<K, LinkedListNode<CacheElement<K, V>>> linkedListNodeMap;
 	private final DoublyLinkedList<CacheElement<K, V>> doublyLinkedList;
@@ -83,5 +83,5 @@ public class LRUCache<K, V> implements Cache<K, V> {
 	public void clear() {
 		// TODO Auto-generated method stub
 
-	}
+	}*/
 }
