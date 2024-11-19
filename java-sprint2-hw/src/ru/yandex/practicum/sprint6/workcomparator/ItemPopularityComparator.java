@@ -17,5 +17,9 @@ public class ItemPopularityComparator implements Comparator<Item> {
 	public int compare(Item item1, Item item2) {
 		return item1.popularity - item2.popularity;
 	}
+	/*
+	 * Если положительный результат => первый товар дороже второго. Если ноль =>
+	 * цены равны. Если отрицательный результат => первый товар дешевле второго.
+	 */
 
 }
