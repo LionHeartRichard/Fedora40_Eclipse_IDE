@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-class PotatoLaboratory {
+public class PotatoLaboratory {
 
 	public static void main(String[] args) {
 		List<Potato> potatoes = List.of(new Potato(1, 30, 30, 30), new Potato(2, 35, 31, 35), new Potato(3, 40, 35, 44),
@@ -14,7 +14,7 @@ class PotatoLaboratory {
 		List<Potato> fourUnderExperiment = findPotatoesForExperiment(potatoes);
 
 		System.out.println("Картофелины для эксперимента: " + fourUnderExperiment);
-		// fourUnderExperiment.forEach(v -> System.out.println(v));
+		System.out.println();
 	}
 
 	private static List<Potato> findPotatoesForExperiment(List<Potato> potatoes) {
@@ -22,18 +22,18 @@ class PotatoLaboratory {
 		 * Вычислите две самые большие и две самые маленькие картофелины, а затем
 		 * выведите их в порядке от самых маленьких до самых больших.
 		 */
-		var swap = new ArrayList<>(potatoes);
+		List<Potato> swap = new ArrayList<>(potatoes);
 		Collections.sort(swap);
-		List<Potato> result = new ArrayList<>();
-		int idx = 0;
-		int countFindMin = 2;
-		int countFindMax = swap.size() - countFindMin - 1;
-		while (idx < swap.size() && idx < countFindMin) {
-			result.add(swap.get(idx++));
+		int sizeResult = 4;
+		List<Potato> result = new ArrayList<>(sizeResult);
+		int leftIdx = 0;
+		int counterMaxMin = sizeResult / 2;
+		int rightIdx = swap.size() - counterMaxMin;
+		while (leftIdx < counterMaxMin) {
+			result.add(swap.get(leftIdx++));
 		}
-		idx = swap.size() - 1;
-		while (idx >= 0 && idx > countFindMax) {
-			result.add(swap.get(idx--));
+		while (rightIdx < swap.size()) {
+			result.add(swap.get(rightIdx++));
 		}
 		return result;
 	}

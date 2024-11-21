@@ -2,7 +2,7 @@ package ru.yandex.practicum.sprint6.potato;
 
 import java.util.Objects;
 
-class Potato implements Comparable<Potato> {
+public class Potato implements Comparable<Potato> {
 
 	public final int id;
 
@@ -23,10 +23,14 @@ class Potato implements Comparable<Potato> {
 	}
 
 	@Override
-	public int compareTo(Potato o) {
-		// Сравните картофелины по альфа характеристике
-		double alpha = weight * 0.5 + length * 0.65 + girth * 0.8;
-		return (int) alpha;
+	public int compareTo(Potato other) {
+		final int compareAlphaThis = (int) (this.weight * 0.5 + this.length * 0.65 + this.girth * 0.8);
+		final int compareAlphaOther = (int) (other.weight * 0.5 + other.length * 0.65 + other.girth * 0.8);
+
+		if (compareAlphaOther != compareAlphaThis) {
+			return Integer.compare(compareAlphaThis, compareAlphaOther);
+		}
+		return Integer.compare(this.id, other.id);
 	}
 
 	@Override
