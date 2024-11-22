@@ -9,7 +9,7 @@ class Practicum {
 		Comparator<User> userComparator = new Comparator<>() {
 			@Override
 			public int compare(User user1, User user2) {
-				return user1.userId - user2.userId;
+				return String.CASE_INSENSITIVE_ORDER.compare(user1.name, user2.name);
 			}
 		};
 
