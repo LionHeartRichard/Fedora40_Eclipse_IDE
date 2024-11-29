@@ -7,12 +7,12 @@ public class HandMadeLinkedList<T> {
 	class Node<E> {
 		public E data;
 		public Node<E> next;
-		public Node<E> prev;
+		public Node<E> previos;
 
 		public Node(Node<E> prev, E data, Node<E> next) {
 			this.data = data;
 			this.next = next;
-			this.prev = prev;
+			this.previos = prev;
 		}
 	}
 
@@ -29,7 +29,7 @@ public class HandMadeLinkedList<T> {
 		if (oldHead == null)
 			tail = newNode;
 		else
-			oldHead.prev = newNode;
+			oldHead.previos = newNode;
 		++size;
 	}
 
