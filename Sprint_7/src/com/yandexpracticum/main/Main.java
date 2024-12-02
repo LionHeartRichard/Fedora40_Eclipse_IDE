@@ -29,6 +29,28 @@ public class Main {
 		int length = "Как их все запомнить?!".length();
 		System.out.println("Как их все запомнить?!".charAt(length - 2) == '?');
 		System.out.println("Шиншилла".lastIndexOf("и") == 4);
+
+		System.out.println("_".repeat(50));
+		System.out.println("раз два три".contains("раз")); // true
+		System.out.println("раз два три".contains("два")); // true
+		System.out.println("раз два три".contains("три")); // true
+
+		System.out.println("раз два три".startsWith("раз")); // true
+		System.out.println("раз два три".startsWith("два")); // false
+		System.out.println("раз два три".startsWith("три")); // false
+
+		System.out.println("раз два три".endsWith("раз")); // false
+		System.out.println("раз два три".endsWith("два")); // false
+		System.out.println("раз два три".endsWith("три")); // true
+
+		System.out.println("_".repeat(50));
+		String example = "раз два, раз два";
+		System.out.println(example.replace("раз", "три")); // выведет "три два, три два"
+		System.out.println(example.replaceFirst("раз", "три")); // выведет "три два, раз два"
+
+		String vegetables = "Томат — зелёный, а морковка — оранжевая";
+		System.out.println(vegetables.replace("а", "А").replaceFirst("зелёный", "красный"));
+		// Выведет: "ТомАт — красный, А морковкА — орАнжевАя"
 	}
 
 }
