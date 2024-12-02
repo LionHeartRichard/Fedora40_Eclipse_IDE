@@ -51,6 +51,35 @@ public class Main {
 		String vegetables = "Томат — зелёный, а морковка — оранжевая";
 		System.out.println(vegetables.replace("а", "А").replaceFirst("зелёный", "красный"));
 		// Выведет: "ТомАт — красный, А морковкА — орАнжевАя"
+
+		System.out.println("_".repeat(50) + "StringBuilder" + "_".repeat(50));
+		StringBuilder builder = new StringBuilder("Helo!");
+		builder.insert(3, "l"); // добавили "l" на 3-ю позицию перед "o"
+		System.out.println(builder.toString());
+		builder.append(" World!");
+		builder.replace(1, 2, "ё");
+		builder.replace(7, 13, "java!");
+		System.out.println(builder.toString());
+
+		builder = new StringBuilder("Hhellllllo!");
+		builder.deleteCharAt(1); // удалит элемент 'h'
+		builder.delete(2, 6); // удалит все лишние символы 'l'
+		System.out.println(builder.toString()); // выведет строку "Hello!"
+		builder.reverse();
+		System.out.println(builder.toString());
+		builder = new StringBuilder("hellodghkwennalmc/ skm");
+		builder.setLength(5); // останется только пять символов
+		System.out.println(builder.toString()); // выведет строку "hello"
+
+		StringBuilder initial = new StringBuilder("Большая красная кнопка");
+
+		initial.replace(8, 15, "белая");
+		initial.delete(14, 30);
+		initial.append("груша");
+		initial.setLength(7);
+		initial.reverse();
+
+		System.out.println(initial.toString().toLowerCase());
 	}
 
 }
