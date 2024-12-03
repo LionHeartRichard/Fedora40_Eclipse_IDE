@@ -107,10 +107,38 @@ public class Main {
 		// join() — String... strs. Такая запись, тип данных плюс многоточие, называется
 		// variable arguments
 		String pet1 = "Кот Батончик";
-        String pet2 = "Хомяк Рафаэлка";
-        String pet3 = "Попугай Картошка";
-        String allPets = String.join(", ", pet1, pet2, pet3);
-        System.out.println("Мои питомцы: " + allPets);
+		String pet2 = "Хомяк Рафаэлка";
+		String pet3 = "Попугай Картошка";
+		String allPets = String.join(", ", pet1, pet2, pet3);
+		System.out.println("Мои питомцы: " + allPets);
+
+		System.out.println("_".repeat(50) + "String format" + "_".repeat(50));
+		String[] colors = new String[] { "красный", "жёлтый", "зелёный" };
+		String trafficLight = String.format("Цвета светофора: %s, %s и %s.", colors[0], colors[1], colors[2]);
+		System.out.println(trafficLight);
+
+		String pizza = "Пицца, 1 шт., 310.50";
+		System.out.printf("%S\n; ", pizza);
+
+		boolean theTruth = true;
+		System.out.printf("%b; ", theTruth);
+		System.out.printf("%B", theTruth);
+
+		String tea = "Чай, 1 шт., 113.30";
+		int[] numbers = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+		System.out.print(numbers[0]);
+		System.out.printf("%45s%n", pizza);
+		System.out.print(numbers[1]);
+		System.out.printf("%45s\n", tea);
+		System.out.printf("%1.5s%n", pizza);
+
+		System.out.println();
+		String discount = "-10%";
+		System.out.printf("%-25s", pizza);
+		System.out.println(discount);
+
+		double price = 12345.6789;
+		System.out.printf("%2.2f", price); // Выведет 12345.68
 	}
 
 }
