@@ -1,6 +1,7 @@
 package com.yandexpracticum.trainer;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
@@ -22,6 +23,22 @@ public class PoemFixer {
 			builder.delete(0, builder.indexOf(substring) + 1);
 		}
 		return count;
+	}
+
+	public boolean isPalindromeWord(String str) {
+		str = str.replaceAll(" ", "");
+		StringBuilder builder = new StringBuilder(str.toUpperCase());
+		int left = 0, right = str.length() - 1;
+		while (left < right) {
+			if (builder.charAt(left++) != builder.charAt(right--))
+				return false;
+		}
+		return true;
+	}
+
+	@Test
+	public void isPalindromeWordTest() {
+		assertTrue(isPalindromeWord("А роза упала на лапу Азора"));
 	}
 
 	@Test

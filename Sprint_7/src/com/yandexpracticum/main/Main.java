@@ -78,8 +78,39 @@ public class Main {
 		initial.append("груша");
 		initial.setLength(7);
 		initial.reverse();
-
 		System.out.println(initial.toString().toLowerCase());
+
+		System.out.println("_".repeat(50) + "String SPLIT" + "_".repeat(50));
+		String excellent = "Марина Голубева,Анна Иванова,Василий Рябов,Екатерина Белых,Иван Засонин";
+		String[] split = excellent.split(",");
+		for (String student : split) {
+			System.out.println(student + " — отлично");
+		}
+
+		String students = "Примечание 1.1*Примечание 1.2*Примечание 1.3";
+		String[] splitSt = students.split("\\*");
+		System.out.println(splitSt[0].equals("Примечание 1.1"));
+		System.out.println(splitSt[1].equals("Примечание 1.2"));
+		System.out.println(splitSt[2].equals("Примечание 1.3"));
+
+		String dollarAssets = "Акции$Облигации$Фонды";
+		String[] splitDollars = dollarAssets.split("\\$"); // разбейте строку dollarAssets
+		System.out.println(splitDollars[0].equals("Акции"));
+		System.out.println(splitDollars[1].equals("Облигации"));
+		System.out.println(splitDollars[2].equals("Фонды"));
+
+		System.out.println("_".repeat(50) + "String JOIN" + "_".repeat(50));
+		String[] arrayOfPets = new String[] { "Кот Батончик", "Хомяк Рафаэлка", "Попугай Картошка" };
+		String pets = String.join(", ", arrayOfPets);
+		System.out.println("Мои питомцы: " + pets);
+
+		// join() — String... strs. Такая запись, тип данных плюс многоточие, называется
+		// variable arguments
+		String pet1 = "Кот Батончик";
+        String pet2 = "Хомяк Рафаэлка";
+        String pet3 = "Попугай Картошка";
+        String allPets = String.join(", ", pet1, pet2, pet3);
+        System.out.println("Мои питомцы: " + allPets);
 	}
 
 }
