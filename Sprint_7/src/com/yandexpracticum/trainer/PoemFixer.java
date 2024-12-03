@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 
 public class PoemFixer {
+
 	public String fixPoem(String[] poem) {
 		StringBuilder builder = new StringBuilder();
 		for (String s : poem) {
@@ -16,14 +17,9 @@ public class PoemFixer {
 	public int numberOfRepeats(String text, String substring) {
 		int count = 0;
 		StringBuilder builder = new StringBuilder(text);
-		int len = substring.length();
-		int idx = builder.indexOf(substring);
-
-		while (idx != -1) {
+		while (builder.indexOf(substring) > -1) {
 			++count;
-			int endIdx = len + idx;
-			builder.delete(idx, endIdx);
-			idx = builder.indexOf(substring);
+			builder.delete(0, builder.indexOf(substring) + 1);
 		}
 		return count;
 	}
@@ -40,10 +36,32 @@ public class PoemFixer {
 	}
 
 	@Test
-	public void numberOfRepeatsTest() {
+	public void numberOfRepeatsWhenStandartStringThenReturn4() {
 		String text = "java, java, javaScript, Perfect Origin - java!!!";
 		String substring = "java";
 		int expected = 4;
+
+		int actual = numberOfRepeats(text, substring);
+
+		assertEquals(expected, actual);
+	}
+
+	@Test
+	public void numberOfRepeatsWhenSingleSymbolTo7ThenReturn7() {
+		String text = "jjjjjjj";
+		String substring = "j";
+		int expected = 7;
+
+		int actual = numberOfRepeats(text, substring);
+
+		assertEquals(expected, actual);
+	}
+
+	@Test
+	public void numberOfRepeatsWhenSingleSymbolTo2BeginAndEndStrThenReturn2() {
+		String text = "jaaaj";
+		String substring = "j";
+		int expected = 2;
 
 		int actual = numberOfRepeats(text, substring);
 
