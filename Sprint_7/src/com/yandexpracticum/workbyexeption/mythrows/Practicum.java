@@ -31,7 +31,7 @@ class Practicum {
 		}
 	}
 
-	public static void add(final PizzaStorage storage) {
+	public static void add(final PizzaStorage storage) throws TooMuchPizzaException {
 		try {
 			final int count = getPositiveNumber("Введите количество пиццы для добавления => ");
 			storage.addPizza(count);
@@ -40,7 +40,7 @@ class Practicum {
 		}
 	}
 
-	public static void take(final PizzaStorage storage) {
+	public static void take(final PizzaStorage storage) throws NotEnoughPizzaException {
 		try {
 			final int count = getPositiveNumber("Введите количество пиццы для удаления => ");
 			storage.takePizza(count);
