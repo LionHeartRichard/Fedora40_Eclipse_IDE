@@ -1,4 +1,4 @@
-package com.yandexpracticum.workbyexeption;
+package com.yandexpracticum.workbyexeption.subsolutions;
 
 import java.net.URI;
 import java.net.URISyntaxException;
