@@ -4,8 +4,8 @@ import topalgorithm.roadmap.sorting.ArraySort;
 
 public class TimSorted implements ArraySort {
 
-	// time: O [N log N]
-	// memory: O [N log N]
+	// time: O [n*log n]
+	// memory: O [n*log n]
 
 	private static int THRESHOLD = 32;
 

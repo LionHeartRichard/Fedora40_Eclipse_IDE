@@ -1,10 +1,11 @@
 package topalgorithm.roadmap.newtree.bst;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 public class AlgorithmsBinarySearchTree {
+
+	private static int idx = 1;
 
 	private AlgorithmsBinarySearchTree() {
 	}
@@ -80,18 +81,61 @@ public class AlgorithmsBinarySearchTree {
 		if (node == null)
 			return null;
 		List<Integer> res = new ArrayList<>();
-		traversal(res, node, node.val);
-		
+		inOrderTraversal(res, node, node.val);
+
 		return res;
 	}
 
-	private static void traversal(List<Integer> res, TreeNode node, int currnetValue) {
+	private static void inOrderTraversal(List<Integer> res, TreeNode node, int currnetValue) {
 		if (node == null) {
 			return;
 		}
+		inOrderTraversal(res, node.left, node.val);
 		res.add(node.val);
-		traversal(res, node.left, node.val);
-		traversal(res, node.right, node.val);
+		inOrderTraversal(res, node.right, node.val);
+	}
+
+	public static int getMinKElement(TreeNode root, int k) {
+		idx = 1;
+		TreeNode result = inOrederMin(root, k);
+		return result.val;
+	}
+
+	private static TreeNode inOrederMin(TreeNode node, int k) {
+		if (node == null)
+			return null;
+
+		TreeNode result = inOrederMin(node.left, k);
+
+		if (result != null) {
+			return result;
+		}
+
+		if (k == idx) {
+			return node;
+		}
+		++idx;
+
+		return inOrederMin(node.right, k);
+	}
+
+	public static int getMaxKElement(TreeNode root, int k) {
+		idx = 1;
+		TreeNode result = inOrderMax(root, k);
+		return result.val;
+	}
+
+	private static TreeNode inOrderMax(TreeNode node, int k) {
+		if (node == null)
+			return null;
+
+		TreeNode result = inOrderMax(node.right, k);
+		if (result != null)
+			return result;
+		if (k == idx)
+			return node;
+		++idx;
+		return inOrderMax(node.left, k);
 	}
 
 }

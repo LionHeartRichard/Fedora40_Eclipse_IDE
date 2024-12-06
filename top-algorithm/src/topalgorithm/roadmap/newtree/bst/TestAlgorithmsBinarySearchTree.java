@@ -1,6 +1,5 @@
 package topalgorithm.roadmap.newtree.bst;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -44,5 +43,27 @@ public class TestAlgorithmsBinarySearchTree {
 		}
 
 		assertEquals(expected.size(), actual.size());
+	}
+
+	@Test
+	public void getMinKElementWhenNormalDataReturn7() {
+		int[] newNums = { 2, 5, 7, 10, 12, 15, 20, 50, 100, 150, 200 };
+		TreeNode root = getBinarySearchTree(newNums);
+
+		int expected = 7;
+		int actual = getMinKElement(root, 3);
+
+		assertEquals(expected, actual);
+	}
+
+	@Test
+	public void getMaxKElementWhenNormalDataReturn() {
+		int[] newNums = { -9, 2, 5, 7, 10, 12, 15, 20, 50, 100, 150, 200 };
+		TreeNode root = getBinarySearchTree(newNums);
+
+		int expected = 100;
+		int actual = getMaxKElement(root, 3);
+
+		assertEquals(expected, actual);
 	}
 }
