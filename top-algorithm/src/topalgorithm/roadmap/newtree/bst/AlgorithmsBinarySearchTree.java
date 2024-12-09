@@ -138,4 +138,22 @@ public class AlgorithmsBinarySearchTree {
 		return inOrderMax(node.left, k);
 	}
 
+	public static List<Integer> getReversSortList(TreeNode root) {
+		if (root == null) {
+			return null;
+		}
+		List<Integer> result = new ArrayList<>();
+		inOrderReversTraversal(result, root);
+		return result;
+	}
+
+	private static void inOrderReversTraversal(List<Integer> result, TreeNode node) {
+		if (node == null) {
+			return;
+		}
+		inOrderReversTraversal(result, node.right);
+		result.add(node.val);
+		inOrderReversTraversal(result, node.left);
+	}
+
 }

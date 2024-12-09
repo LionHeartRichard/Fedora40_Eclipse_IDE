@@ -22,10 +22,13 @@ public class SlidingWindowIntersectingWindow implements SlidingWindow {
 	public int findUniqueGen(String gen) {
 		int len = gen.length();
 		int maxLenGen = 0;
+		
 		int quickIdx = 0;
 		int idx = 0;
+		
 		char[] arrayCh = gen.toCharArray();
 		Set<Character> uniqueGen = new HashSet<>();
+		
 		while (quickIdx < len) {
 			if (uniqueGen.contains(arrayCh[quickIdx])) {
 				uniqueGen.remove(arrayCh[idx++]);

@@ -57,7 +57,7 @@ public class TestAlgorithmsBinarySearchTree {
 	}
 
 	@Test
-	public void getMaxKElementWhenNormalDataReturn() {
+	public void getMaxKElementWhenNormalDataThenReturnSort() {
 		int[] newNums = { -9, 2, 5, 7, 10, 12, 15, 20, 50, 100, 150, 200 };
 		TreeNode root = getBinarySearchTree(newNums);
 
@@ -65,5 +65,17 @@ public class TestAlgorithmsBinarySearchTree {
 		int actual = getMaxKElement(root, 3);
 
 		assertEquals(expected, actual);
+	}
+
+	@Test
+	public void getReversTraversalWhenNormalDataThenReturnSortReversList() {
+		List<Integer> expected = Arrays.asList(21, 18, 12, 6, 4, -2);
+		List<Integer> actual = getReversSortList(actualTree);
+
+		for (int i = 0; i < actual.size(); ++i) {
+			assertEquals(expected.get(i), actual.get(i));
+		}
+
+		assertEquals(expected.size(), actual.size());
 	}
 }
