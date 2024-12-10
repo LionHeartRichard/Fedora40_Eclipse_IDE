@@ -2,25 +2,35 @@ package dinamicprograming;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.Arrays;
+
 import org.junit.jupiter.api.Test;
 
-public class TaskHouseRobber {
+public class HouseRobber {
+
+	private int[] cach;
 
 	public int rob(int[] nums) {
 		int len = nums.length;
 		if (len == 1)
 			return nums[0];
 
-		int[] cach = new int[len];
+		cach = new int[len];
+		Arrays.fill(cach, -1);
 
 		cach[0] = nums[0];
 		cach[1] = Math.max(nums[0], nums[1]);
 
-		for (int idx = 2; idx < len; ++idx) {
-			cach[idx] = Math.max(cach[idx - 1], nums[idx] + cach[idx - 2]);
-		}
+		return recursionWithCach(nums, len - 1);
+	}
 
-		return cach[len - 1];
+	private int recursionWithCach(int[] nums, int n) {
+		if (n <= 1)
+			return cach[n];
+		if (cach[n] == -1) {
+			cach[n] = Math.max(recursionWithCach(nums, n - 1), nums[n] + recursionWithCach(nums, n - 2));
+		}
+		return cach[n];
 	}
 
 	@Test
