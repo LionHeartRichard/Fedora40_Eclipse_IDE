@@ -169,7 +169,7 @@ public class MyFilesManager {
 	private static Path getValidPath(String path) throws IOException {
 		if (path != null && !path.isEmpty()) {
 			Path result = Paths.get(path);
-			if (result.toFile() != null) {
+			if (Files.exists(result)) {
 				return result;
 			}
 		}

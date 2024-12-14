@@ -8,27 +8,26 @@ import java.nio.file.StandardCopyOption;
 import java.util.Scanner;
 
 public class Practicum {
+
 	public static void main(String[] args) {
 		Scanner scanner = new Scanner(System.in);
 		try {
 			while (true) {
 				printMenu();
 				String command = scanner.nextLine();
-				if (command.equals("exit")) {
-					System.out.println("Выход.");
-					System.exit(0);
-					break;
-				}
-
 				System.out.println("Введите путь к файлу/директории: ");
 
 				String enteredPath = scanner.nextLine();
 				Path path = Paths.get(enteredPath);
-				if (Files.exists(path)) { //////////////////////////// For LINUX - no work
+				if (!Files.exists(path)) {
 					System.out.println("Введённый путь не существует.");
 					break;
 				}
 				switch (command) {
+				case "exit":
+					System.out.println("Выход.");
+					System.exit(0); // пользователь хочет найти выход, выход есть всегда
+					break;
 				case "ls":
 					try {
 						for (String element : path.toFile().list()) {
@@ -39,7 +38,6 @@ public class Practicum {
 						e.printStackTrace();
 					}
 					break;
-
 				case "mkdir":
 					try {
 						Files.createDirectory(path);
