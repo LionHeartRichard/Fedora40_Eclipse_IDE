@@ -26,7 +26,8 @@ public class WordBraek {
 		for (int i = 1; i <= n; ++i) {
 			int len = Math.max(0, i - maxLen - 1);
 			for (int j = i - 1; j >= len; --j) {
-				if (dp[j] && uniqueWords.contains(source.substring(j, i))) {
+				String swap = source.substring(j, i);
+				if (dp[j] && uniqueWords.contains(swap)) {
 					dp[i] = true;
 					break;
 				}
