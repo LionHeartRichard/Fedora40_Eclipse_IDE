@@ -9,67 +9,83 @@ import java.util.Map;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
-import model.User;
-
+@JsonInclude(JsonInclude.Include.ALWAYS)
 public class Graph<T> {
 
-	private Map<T, Set<T>> graph = new HashMap<>();
-	private Set<T> cacheDFS = new HashSet<>();
+	@JsonAnyGetter
+	private Map<T, Set<T>> adjacentList = new HashMap<>();
+
+	private Set<T> cache = new HashSet<>();
 
 	public Graph() {
 	}
 
 	public Graph(Map<T, Set<T>> adjacent) {
-		this.graph.clear();
-		this.graph = adjacent;
+		this.adjacentList.clear();
+		this.adjacentList = adjacent;
+	}
+
+	public Map<T, Set<T>> getAdjacentList() {
+		return adjacentList;
+	}
+
+	public void setAdjacentList(Map<T, Set<T>> adjacentList) {
+		this.adjacentList = adjacentList;
+	}
+
+	public Set<T> getCache() {
+		return cache;
+	}
+
+	public void setCache(Set<T> cache) {
+		this.cache = cache;
 	}
 
 	public int size() {
-		return graph.size();
+		return adjacentList.size();
 	}
 
-	@JsonIgnore
 	public boolean isEmpty() {
-		return graph.isEmpty();
+		return adjacentList.isEmpty();
 	}
 
 	public void addVertex(T vertex) {
-		graph.put(vertex, new HashSet<T>());
+		adjacentList.put(vertex, new HashSet<T>());
 	}
 
 	public void addEdgeWithoutCheckNullByKeyMap(T topVertex, T vertex) {
-		graph.get(topVertex).add(vertex);
+		adjacentList.get(topVertex).add(vertex);
 	}
 
 	public void addEdge(T topVertex, T vertex) {
-		if (!graph.containsKey(topVertex))
+		if (!adjacentList.containsKey(topVertex))
 			addVertex(topVertex);
-		if (!graph.containsKey(vertex))
+		if (!adjacentList.containsKey(vertex))
 			addVertex(vertex);
-		graph.get(topVertex).add(vertex);
+		adjacentList.get(topVertex).add(vertex);
 	}
 
 	public void addEdge(T topVertex, T vertex, boolean bidirectional) {
-		if (!graph.containsKey(topVertex))
+		if (!adjacentList.containsKey(topVertex))
 			addVertex(topVertex);
-		if (!graph.containsKey(vertex))
+		if (!adjacentList.containsKey(vertex))
 			addVertex(vertex);
-		graph.get(topVertex).add(vertex);
+		adjacentList.get(topVertex).add(vertex);
 		if (bidirectional)
-			graph.get(vertex).add(topVertex);
+			adjacentList.get(vertex).add(topVertex);
 	}
 
 	public List<T> breadthFirstSearch(T topVertex) {
-		if (graph.containsKey(topVertex)) {
+		if (adjacentList.containsKey(topVertex)) {
 			List<T> result = new ArrayList<>();
-			Set<T> cache = graph.get(topVertex);
+			Set<T> cache = adjacentList.get(topVertex);
 			result.addAll(cache);
-			LinkedList<T> swap = new LinkedList<T>(cache);
+			LinkedList<T> swap = new LinkedList<>(cache);
 			while (!swap.isEmpty()) {
 				T currentVertex = swap.pop();
-				for (T subVertex : graph.get(currentVertex)) {
+				for (T subVertex : adjacentList.get(currentVertex)) {
 					if (!cache.contains(subVertex)) {
 						cache.add(subVertex);
 						swap.add(subVertex);
@@ -83,55 +99,45 @@ public class Graph<T> {
 	}
 
 	public Set<T> depthFirstSearch(T topVertex) {
-		if (graph.containsKey(topVertex)) {
-			cacheDFS.clear();
-			for (T vertex : graph.get(topVertex)) {
-				cacheDFS.add(vertex);
+		if (adjacentList.containsKey(topVertex)) {
+			cache.clear();
+			for (T vertex : adjacentList.get(topVertex)) {
+				cache.add(vertex);
 				traversalDFS(vertex);
 			}
-			return cacheDFS;
+			return cache;
 		}
 		return null;
 	}
 
 	private void traversalDFS(T vertex) {
-		Set<T> tmp = graph.get(vertex);
+		Set<T> tmp = adjacentList.get(vertex);
 		for (T subVertex : tmp) {
-			cacheDFS.add(subVertex);
+			cache.add(subVertex);
 			traversalDFS(subVertex);
 		}
 	}
 
-	@JsonIgnore
 	public List<T> getListAllVertices() {
-		List<T> vertices = new ArrayList<T>(graph.keySet());
+		List<T> vertices = new ArrayList<>(adjacentList.keySet());
 		return vertices;
 	}
 
-	@JsonIgnore
 	public Set<T> getSetAllVertices() {
-		Set<T> vertices = new HashSet<>(graph.keySet());
+		Set<T> vertices = new HashSet<>(adjacentList.keySet());
 		return vertices;
 	}
 
 	public void removeVertices() {
-		graph.clear();
+		adjacentList.clear();
 	}
 
 	public void removeVertex(T vertex) {
-		graph.remove(vertex);
-	}
-
-	public Map<T, Set<T>> getGraph() {
-		return graph;
+		adjacentList.remove(vertex);
 	}
 
 	public boolean containsKey(T vertex) {
-		return graph.containsKey(vertex);
-	}
-
-	public void setGraph(Map<T, Set<T>> graph) {
-		this.graph = graph;
+		return adjacentList.containsKey(vertex);
 	}
 
 }
