@@ -9,12 +9,12 @@ import java.util.Map;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 @JsonInclude(JsonInclude.Include.ALWAYS)
 public class Graph<T> {
 
-	@JsonAnyGetter
 	private Map<T, Set<T>> adjacentList = new HashMap<>();
 
 	private Set<T> cache = new HashSet<>();
@@ -59,6 +59,7 @@ public class Graph<T> {
 		adjacentList.get(topVertex).add(vertex);
 	}
 
+	@JsonAnySetter
 	public void addEdge(T topVertex, T vertex) {
 		if (!adjacentList.containsKey(topVertex))
 			addVertex(topVertex);

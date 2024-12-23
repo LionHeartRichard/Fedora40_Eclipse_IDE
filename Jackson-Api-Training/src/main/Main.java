@@ -1,15 +1,42 @@
 package main;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicReference;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
+import model.User;
+import model.UserSerializer;
+import util.Graph;
+
 public class Main {
+
+	@JsonSerialize(keyUsing = UserSerializer.class)
+	static Map<User, Set<User>> map;
+
+	@JsonSerialize(keyUsing = UserSerializer.class)
+	static User mapKey;
+
+	@JsonSerialize(keyUsing = UserSerializer.class)
+	static Set<User> mapValue;
+
+	static ObjectMapper mapper = new ObjectMapper();
+	private static final String PATH = "/home/kerrigan_kein/eclipse-workspace/Jackson-Api-Training/resources/jsonInput.json";
+
 	public static void main(String[] args) {
 		// Создаем сложный объект
 		Map<Object, Set<Object>> complexObject = new HashMap<>();
@@ -37,26 +64,59 @@ public class Main {
 
 			complexObject = objectMapper.readValue(jsonString, new TypeReference<Map<Object, Set<Object>>>() {
 			});
-		
-	
-            String jsonInput = "{ "userId": [{ "userId": "1", "userName": "Alice" }, { "userId": "2", "userName": "Bob" }], "userId": [{ "userId": "2", "userName": "Bob" }] }";
 
-            // Создаем ObjectMapper
-            ObjectMapper mapper = new ObjectMapper();
+			map = new HashMap<>();
+			Graph<User> graph = new Graph<User>();
+			graph.addEdge(new User("0", "root"), new User("1", "Parent1"));
+			graph.addEdge(new User("0", "root"), new User("2", "Parent2"));
+			graph.addEdge(new User("1", "Parent1"), new User("3", "Children1"));
+			graph.addEdge(new User("1", "Parent1"), new User("4", "Children2"));
+			graph.addEdge(new User("1", "Parent1"), new User("5", "Children3"));
+			graph.addEdge(new User("2", "Parent2"), new User("6", "Children=4"));
+			graph.addEdge(new User("2", "Parent2"), new User("7", "Children=5"));
+			map.putAll(graph.getAdjacentList());
+			saveGraph();
+			File jsonInput = new File(PATH);
 
-            // Десериализация
-            Map<User, Set<User>> userMap = mapper.readValue(jsonInput, new TypeReference<Map<User, Set<User>>>(){});
+			TypeReference<HashMap<User, HashSet<User>>> typeRef = new TypeReference<HashMap<User, HashSet<User>>>() {
+			};
+			Map<User, HashSet<User>> userMap = mapper.readValue(jsonInput, typeRef);
 
-            // Выводим результат
-            for (Map.Entry<User, Set<User>> entry : userMap.entrySet()) {
-                System.out.println("User: " + entry.getKey().getName());
-                System.out.println("Friends: ");
-                for (User friend : entry.getValue()) {
-                    System.out.println(" - " + friend.getName());
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public static void saveGraph() {
+		try (FileWriter writer = new FileWriter(PATH); BufferedWriter buffer = new BufferedWriter(writer)) {
+			String json = mapper.writeValueAsString(map);
+			buffer.write(json);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	// Интересный метод, обрати внимание не только на каст-Типов, но и на обработку
+	// Ошибок
+	public static <T> T deserialize() {
+		try (final FileInputStream FileOutputStream = new FileInputStream(PATH);
+				final ObjectInputStream ObjectInputStream = new ObjectInputStream(FileOutputStream)) {
+			final Object object = ObjectInputStream.readObject();
+			final Class<?> Class = object.getClass();
+			return (T) Class.cast(object);
+		} catch (final IOException | ClassNotFoundException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	public static <T> T deserialize(final Object object) {
+		try {
+			final Class<?> Class = object.getClass();
+			return (T) Class.cast(object);
+		} catch (final Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
 }

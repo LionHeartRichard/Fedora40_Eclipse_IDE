@@ -87,7 +87,7 @@ public class TestJacsonApi {
 			}
 			System.out.println(json.toString());
 			Graph<User> users = new Graph<>();
-			Map<Object, Set<Object>> swap = mapper.readValue(json.toString(), new TypeReference<>() {
+			Map<User, Set<User>> swap = mapper.readValue(json.toString(), new TypeReference<>() {
 			});
 			Map<User, Set<User>> result = new HashMap<>();
 			// Map<User, Set<User>> swap = mapper.readValue(json,
