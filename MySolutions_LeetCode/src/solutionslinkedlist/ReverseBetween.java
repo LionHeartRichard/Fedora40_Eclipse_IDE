@@ -8,68 +8,8 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-public class Solution {
+public class ReverseBetween {
 	public ListNode reverseBetween(ListNode head, int left, int right) {
-		ListNode keepHead = head;
-		ListNode current = null;
-		ListNode previous = null;
-		ListNode leftNode = null;
-
-		while (keepHead != null) {
-			current = keepHead;
-			while (current != null && current.val != right) {
-				if (current.val == left)
-					leftNode = current;
-				current = current.next;
-			}
-			if (current == null) {
-				previous.next = keepHead;
-				return head;
-			}
-
-			ListNode next = current.next;
-			current.next = null;
-			reversToInterval(leftNode, right);
-			if (keepHead == head) {
-				head = current;
-			} else {
-				previous.next = current;
-			}
-			previous = keepHead;
-			keepHead = next;
-		}
-
-		return head;
-	}
-
-	public ListNode reversToInterval(ListNode leftNode, int right) {
-		ListNode previous = leftNode;
-		ListNode current = leftNode;
-		ListNode next = leftNode;
-		while (current != null && current.val != right) {
-			next = next.next;
-
-			current.next = previous;
-			previous = current;
-			current = next;
-		}
-		return previous;
-	}
-
-	public ListNode reversListNode(ListNode head) {
-		ListNode previous = null;
-		ListNode current = head;
-		ListNode next = head;
-
-		while (current != null) {
-			next = next.next;
-
-			current.next = previous;
-			previous = current;
-			current = next;
-		}
-
-		return previous;
 	}
 
 	@Test

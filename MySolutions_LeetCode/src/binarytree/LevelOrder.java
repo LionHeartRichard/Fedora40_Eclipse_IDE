@@ -2,8 +2,10 @@ package binarytree;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -14,18 +16,40 @@ public class LevelOrder {
 
 	public List<List<Integer>> levelOrder(TreeNode root) {
 
-		List<List<Integer>> ans = new ArrayList<>();
-
 		if (root == null)
-			return ans;
+			return Collections.emptyList();
+
+		List<List<Integer>> ans = new AbstractList<List<Integer>>() {
+
+			List<List<Integer>> result = new ArrayList<>();
+
+			@Override
+			public int size() {
+				if (result.isEmpty())
+					result = getListOrderLevel(root);
+				return result.size();
+			}
+
+			@Override
+			public List<Integer> get(int index) {
+				if (result.isEmpty())
+					result = getListOrderLevel(root);
+				return result.get(index);
+			}
+		};
+		return ans;
+	}
+
+	private List<List<Integer>> getListOrderLevel(TreeNode root) {
+		List<List<Integer>> ans = new ArrayList<>();
 
 		Queue<TreeNode> que = new LinkedList<>();
 		que.add(root);
 
 		while (!que.isEmpty()) {
-			List<Integer> tmp = new ArrayList<>();
 			int size = que.size();
-			for (int i = 0; i < size; ++i) {
+			List<Integer> tmp = new ArrayList<>();
+			for (int count = 0; count < size; ++count) {
 				TreeNode node = que.poll();
 				if (node.left != null)
 					que.add(node.left);

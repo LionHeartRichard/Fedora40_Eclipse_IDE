@@ -6,7 +6,7 @@ import java.util.Arrays;
 
 import org.junit.jupiter.api.Test;
 
-public class ArrowAndBalls {
+public class TopArrowAndBalls {
 
 	public int findMinArrowShots(int[][] points) {
 		if (points.length == 0)

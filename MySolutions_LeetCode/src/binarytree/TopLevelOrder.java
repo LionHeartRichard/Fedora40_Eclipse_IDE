@@ -11,8 +11,19 @@ import org.junit.jupiter.api.Test;
 public class TopLevelOrder {
 
 	public List<List<Integer>> levelOrder(TreeNode root) {
+		List<List<Integer>> ans = new ArrayList<>();
+		traversalOrderByLevels(root, ans, 0);
+		return ans;
+	}
 
-		return null;
+	private void traversalOrderByLevels(TreeNode root, List<List<Integer>> ans, int currentHeight) {
+		if (root == null)
+			return;
+		if (ans.size() - 1 < currentHeight)
+			ans.add(new ArrayList<>());
+		ans.get(currentHeight).add(root.val);
+		traversalOrderByLevels(root.left, ans, currentHeight + 1);
+		traversalOrderByLevels(root.right, ans, currentHeight + 1);
 	}
 
 	@Test
