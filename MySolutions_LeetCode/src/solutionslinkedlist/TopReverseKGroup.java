@@ -1,38 +1,44 @@
 package solutionslinkedlist;
 
 public class TopReverseKGroup {
-	
+
 	public ListNode reverseKGroup(ListNode head, int k) {
 		if (k == 1)
 			return head;
-		int i = 0;
+
+		int count = 0; // проходимся по связанному списку, находим опорный элемент
 		ListNode pivot = head;
-		while (i++ < k) {
+		while (count++ < k) {
 			head = head.next;
 		}
-		var t = rever(pivot, head);
-		i = 0;
-		ListNode a = null;
-		while (head != null && i++ < k) {
+
+		ListNode newHead = reverseListFromTailToHead(pivot, head); // реверс списка от опорного
+		count = 0;
+		ListNode swap = null;
+
+		while (head != null && count++ < k) {
 			head = head.next;
-			if (i == k) {
-				i = 0;
-				a = pivot.next;
-				pivot.next = rever(pivot.next, head);
-				pivot = a;
+			if (count == k) {
+				count = 0;
+				swap = pivot.next;
+				pivot.next = reverseListFromTailToHead(pivot.next, head);
+				pivot = swap;
 			}
 		}
-		return t;
+		return newHead;
 	}
 
-	private ListNode rever(ListNode head, ListNode tail) {
-		ListNode pre = tail;
+	// реверс от хвоста к голове
+	private ListNode reverseListFromTailToHead(ListNode head, ListNode tail) {
+		ListNode previous = tail;
+
 		while (head != tail) {
-			ListNode temp = head.next;
-			head.next = pre;
-			pre = head;
-			head = temp;
+			ListNode swap = head.next;
+
+			head.next = previous;
+			previous = head;
+			head = swap;
 		}
-		return pre;
+		return previous;
 	}
 }

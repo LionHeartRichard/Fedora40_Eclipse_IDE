@@ -11,8 +11,7 @@ public class Fibonacci {
 	// Пример динамического программирования снизу!!!!!!!!
 	public int fib(int n) {
 		if (n <= 1)
-			return n; // return n - used in Example or 1 - если нужно исключиьт повторение в начале
-						// 1, 1
+			return n; // return 1 - если нужно исключиьт повторение в начале
 		if (cach[n] == 0)
 			cach[n] = fib(n - 1) + fib(n - 2);
 		return cach[n];
@@ -26,6 +25,21 @@ public class Fibonacci {
 			arrayFib[i] = arrayFib[i - 1] + arrayFib[i - 2];
 		}
 		return arrayFib[n];
+	}
+
+	public int procedureStyleFib(int n) {
+		int[] ans = new int[n + 1];
+		ans[1] = 1;
+		fibProcedure(ans, 2);
+		return ans[n];
+	}
+
+	private void fibProcedure(int[] ans, int idx) {
+		if (idx >= ans.length)
+			return;
+
+		ans[idx] = ans[idx - 1] + ans[idx - 2];
+		fibProcedure(ans, idx + 1);
 	}
 
 	// Пример расчета факториала
@@ -65,6 +79,18 @@ public class Fibonacci {
 	public void testFactorial() {
 		long actual = getFactorial(10);
 		long expected = 3628800l;
+
+		assertEquals(expected, actual);
+	}
+
+	@Test
+	public void testProcedureStyleFib() {
+		int num = 46;
+		int actual = procedureStyleFib(num);
+
+		System.out.println("procedureStyleFib[" + num + "] = " + actual);
+
+		int expected = 1836311903;
 
 		assertEquals(expected, actual);
 	}
