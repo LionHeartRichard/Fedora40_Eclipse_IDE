@@ -6,13 +6,13 @@ public class TopReverseKGroup {
 		if (k == 1)
 			return head;
 
-		int count = 0; // проходимся по связанному списку, находим опорный элемент
+		int count = 0;
 		ListNode pivot = head;
 		while (count++ < k) {
 			head = head.next;
 		}
 
-		ListNode newHead = reverseListFromTailToHead(pivot, head); // реверс списка от опорного
+		ListNode newHead = reverseListFromTailToHead(pivot, head);
 		count = 0;
 		ListNode swap = null;
 

@@ -1,6 +1,8 @@
 package solutionslinkedlist;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.jupiter.api.Test;
@@ -9,32 +11,46 @@ public class ReverseBetween {
 
 	public ListNode reverseBetween(ListNode head, int leftIdx, int rightIdx) {
 
+		// Обрабатываем крайние случаи
 		if (head == null || leftIdx == rightIdx) {
 			return head;
 		}
 
+		// используем паттерн dummy
+		// самму переменную dummy не трогаем таким образом сохраняем ссылку на
+		// изначальную голову
 		ListNode dummy = new ListNode();
 		dummy.next = head;
-		ListNode previous = dummy;
 
+		// список
+		ListNode first = dummy;
+
+		// смещяем список first влево, не доходя до leftIdx
 		for (int i = 1; i < leftIdx; ++i) {
-			previous = previous.next;
+			first = first.next;
 		}
 
-		ListNode leftNode = previous.next;
+		// создаем список начинающийся с левого индекса, он смещен относительно списка
+		// first на один элемент влево
+		ListNode second = first.next;
 
+		// цикл для перестановки элементов, сами переменные не меняются и их значения не
+		// меняются, меняется только значения dummy
 		for (int i = 0; i < rightIdx - leftIdx; ++i) {
-			ListNode swap = leftNode.next;
 
-			leftNode.next = swap.next;
-			swap.next = previous.next;
-			previous.next = swap;
+			// создаем третий список который смещяется еще на один элемент
+			ListNode third = second.next;
+
+			// осуществляю перестановку не меняя сами списки
+			second.next = third.next;
+			third.next = first.next;
+			first.next = third;
 		}
 
 		return dummy.next;
 	}
 
-	public ListNode reversListNode(ListNode head) {
+	public ListNode reverse(ListNode head) {
 		ListNode previous = null;
 
 		while (head != null) {
@@ -59,14 +75,17 @@ public class ReverseBetween {
 
 		// [1,4,3,2,5]
 		int[] expected = { 1, 4, 3, 2, 5 };
-		ListNode actual = reverseBetween(head, left, right);
+		ListNode actualNode = reverseBetween(head, left, right);
+		int[] actual = new int[expected.length];
 
 		int i = 0;
-		while (actual != null) {
-			assertEquals(expected[i++], actual.val);
-			actual = actual.next;
+		while (actualNode != null && i < actual.length) {
+			actual[i++] = actualNode.val;
+			actualNode = actualNode.next;
 		}
-		assertTrue(i == expected.length);
+
+		assertArrayEquals(expected, actual);
+		assertNull(actualNode);
 
 	}
 
@@ -118,7 +137,7 @@ public class ReverseBetween {
 	}
 
 	@Test
-	public void reversTest() {
+	public void reverseTest() {
 		ListNode node5 = new ListNode(5);
 		ListNode node4 = new ListNode(4, node5);
 		ListNode node3 = new ListNode(3, node4);
@@ -126,7 +145,7 @@ public class ReverseBetween {
 		ListNode head = new ListNode(1, node2);
 
 		int[] expected = { 5, 4, 3, 2, 1 };
-		ListNode actual = reversListNode(head);
+		ListNode actual = reverse(head);
 
 		int i = 0;
 		while (actual != null) {
