@@ -11,7 +11,7 @@ interface Summator {
 	int sum(int n1, int n2);
 }
 
-public class Practicum {
+public class ListFunInterface {
 
 	public static void main(String[] args) {
 		Summator summator = (n1, n2) -> n1 + n2;
