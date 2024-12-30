@@ -24,4 +24,14 @@ public class Candy {
 		this.amount = amount;
 		this.alternativeNames = new HashSet<>();
 	}
+
+	public static int compareByPrice(Candy c1, Candy c2) {
+		return Double.compare(c1.price, c2.price);
+	}
+
+	@Override
+	public String toString() {
+		return "Товар \"" + name + "\" доступен в количестве " + amount + " кг по цене " + price + " руб за кг";
+	}
+
 }
