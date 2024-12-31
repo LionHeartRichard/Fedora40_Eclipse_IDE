@@ -1,59 +1,68 @@
 package sunrisesandsunsets;
 
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.Scanner;
 
 class Practicum {
 
+	// милисекунд в сутках 86 400 000
+	// секунд 86 400
+
+	private static final long secondsInDay = 86_400;
+
 	// запросите у пользователя его координаты (долгота и широта) и затем
 	// выведите расписание рассветов и закатов на сегодня
 	// и ближайшую неделю в формате РАССВЕТ - ЗАКАТ
-	public static void main(String[] args){
-	        Scanner scanner = new Scanner(System.in);
-	        System.out.println("Введите широту:");
-	        double userLatitude = scanner.nextDouble();
+	public static void main(String[] args) {
+		Scanner scanner = new Scanner(System.in);
 
-	        System.out.println("Введите долготу: ");
-	        double userLongtitude = scanner.nextDouble();
+		System.out.println("Введите широту:");
+		double userLatitude = scanner.nextDouble();
 
-	        System.out.println("Введите вашу временную зону: ");
-	        int userTimezone = scanner.nextInt();
+		System.out.println("Введите долготу: ");
+		double userLongtitude = scanner.nextDouble();
 
-	        System.out.println("Введите текущий год в формате unix (10 цифр): ");
-	        long startOfYear = scanner.nextLong();
+		System.out.println("Введите вашу временную зону: ");
+		int userTimezone = scanner.nextInt();
 
-	        // нам нужно знать, когда начался этот год
-	        Instant startOfYearMoment = ...
+		System.out.println("Введите текущий год в формате unix (10 цифр): ");
+		long startOfYear = scanner.nextLong();
+		scanner.close();
 
-	        // и текущую дату
-	        Instant thisMoment = ...
+		// нам нужно знать, когда начался этот год
+		Instant startOfYearMoment = Instant.ofEpochSecond(startOfYear);
 
-	        // и конечную дату нашего графика рассветов и закатов (плюс семь дней)
-	        Instant lastMoment = ...
+		// и текущую дату
+		Instant thisMoment = Instant.now();
 
-	        System.out.println("Рассвет - Закат, график на неделю:");
-	        do {
-	            int day = dayOfYearFromInstant(startOfYearMoment, thisMoment);
+		// и конечную дату нашего графика рассветов и закатов (плюс семь дней)
+		Instant lastMoment = Instant.ofEpochSecond(startOfYear + (7 * secondsInDay));
 
-	            // эти вычисления нужны для расчёта времени рассвета и заката,
-	            // но вы можете изучить их позже, когда освоите класс Instant
-	            int noonMinutes = localNoonMinutes(day, userTimezone, userLongtitude);
-	            double hourDelta = sunsetTimeHours(day, userLatitude);
-	            double noonHour = 12 + (noonMinutes / 60.0);
-	            double sunriseHour = noonHour - hourDelta;
-	            double sunsetHour = noonHour + hourDelta;
+		System.out.println("Рассвет - Закат, график на неделю:");
+		do {
+			int day = dayOfYearFromInstant(startOfYearMoment, thisMoment);
 
-	            System.out.printf("%s - %s\n", hhmmFromDouble(sunriseHour), hhmmFromDouble(sunsetHour));
+			// эти вычисления нужны для расчёта времени рассвета и заката,
+			// но вы можете изучить их позже, когда освоите класс Instant
+			int noonMinutes = localNoonMinutes(day, userTimezone, userLongtitude);
+			double hourDelta = sunsetTimeHours(day, userLatitude);
+			double noonHour = 12 + (noonMinutes / 60.0);
+			double sunriseHour = noonHour - hourDelta;
+			double sunsetHour = noonHour + hourDelta;
 
-	            // эта конструкция позволит вам высчитать следующий день
-	            thisMoment = thisMoment.plus(1, ChronoUnit.DAYS);
-	        } while ( ... ); // вам нужно вывести график на семь дней
+			System.out.printf("%s - %s\n", hhmmFromDouble(sunriseHour), hhmmFromDouble(sunsetHour));
 
-	    }
+			// эта конструкция позволит вам высчитать следующий день
+			thisMoment = thisMoment.plus(1, ChronoUnit.DAYS);
+		} while (thisMoment.isAfter(lastMoment)); // вам нужно вывести график на семь дней
+
+	}
 
 	// эта функция высчитывает текущий день года по заданному моменту начала года и
 	// по заданному текущему времени
 	private static int dayOfYearFromInstant(Instant startOfYear, Instant time) {
-	        long fromStartOfYear = ...
+	        long fromStartOfYear = startOfYear.getEpochSecond();
 	        return ... fromStartOfYear ...
 	    }
 
