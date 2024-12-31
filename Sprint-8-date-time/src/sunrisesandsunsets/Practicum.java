@@ -1,4 +1,6 @@
-package task1;
+package sunrisesandsunsets;
+
+import java.util.Scanner;
 
 class Practicum {
 

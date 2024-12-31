@@ -6,5 +6,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="lib" path="/home/kerrigan_kein/eclipse/jee-2024-06/eclipse/lombok.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

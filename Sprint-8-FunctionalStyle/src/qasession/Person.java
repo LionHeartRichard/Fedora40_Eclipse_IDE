@@ -20,6 +20,14 @@ public class Person {
 
 	private List<Car> cars;
 
+	public boolean isOld() {
+		return this.age > 25;
+	}
+
+	public static boolean isOldStatic(Person person) {
+		return person.age > 25;
+	}
+
 	@Override
 	public String toString() {
 		return "[" + id + ", " + name + ", " + age + "]";
