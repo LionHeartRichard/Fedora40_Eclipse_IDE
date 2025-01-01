@@ -9,7 +9,7 @@ class Practicum {
 	// милисекунд в сутках 86 400 000
 	// секунд 86 400
 
-	private static final long secondsInDay = 86_400;
+	// private static final long secondsInDay = 86_400;
 
 	// запросите у пользователя его координаты (долгота и широта) и затем
 	// выведите расписание рассветов и закатов на сегодня
@@ -37,7 +37,7 @@ class Practicum {
 		Instant thisMoment = Instant.now();
 
 		// и конечную дату нашего графика рассветов и закатов (плюс семь дней)
-		Instant lastMoment = Instant.ofEpochSecond(startOfYear + (7 * secondsInDay));
+		Instant lastMoment = thisMoment.plus(7, ChronoUnit.DAYS);
 
 		System.out.println("Рассвет - Закат, график на неделю:");
 		do {
@@ -55,16 +55,17 @@ class Practicum {
 
 			// эта конструкция позволит вам высчитать следующий день
 			thisMoment = thisMoment.plus(1, ChronoUnit.DAYS);
-		} while (thisMoment.isAfter(lastMoment)); // вам нужно вывести график на семь дней
+		} while (lastMoment.isAfter(thisMoment)); // вам нужно вывести график на семь дней
 
 	}
 
 	// эта функция высчитывает текущий день года по заданному моменту начала года и
 	// по заданному текущему времени
 	private static int dayOfYearFromInstant(Instant startOfYear, Instant time) {
-	        long fromStartOfYear = startOfYear.getEpochSecond();
-	        return ... fromStartOfYear ...
-	    }
+		// Вычисляем количество секунд между началом года и текущим временем
+		long fromStartOfYear = ChronoUnit.DAYS.between(startOfYear, time);
+		return (int) fromStartOfYear;
+	}
 
 	// все формулы ниже вы можете просто использовать как есть
 
