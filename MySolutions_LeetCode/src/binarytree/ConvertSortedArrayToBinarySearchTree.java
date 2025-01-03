@@ -11,54 +11,78 @@ import org.junit.jupiter.api.Test;
 
 public class ConvertSortedArrayToBinarySearchTree {
 
+	// метод который создает двоичное дерево поиска
+	// из отсортированного массива
 	public TreeNode sortedArrayToBST(int[] nums) {
+		// вызываем рекурсивную функцию
+		// начинаем строить с левого и правого края массива
 		return builder(nums, 0, nums.length - 1);
 	}
 
+	// рекурсивная функция которая строит дерево
 	private TreeNode builder(int[] nums, int leftIdx, int rightIdx) {
+		// обеспечиваем выход из рекурсии
+		// пока левый индекс не больше правого
 		if (leftIdx > rightIdx)
 			return null;
-		int median = (leftIdx + rightIdx) / 2;
-		TreeNode root = new TreeNode(nums[median]);
-		root.left = builder(nums, leftIdx, median - 1);
-		root.right = builder(nums, median + 1, rightIdx);
+		// самым простым способом считаем средний индекс
+		int medianIdx = (leftIdx + rightIdx) / 2;
+		// получив серидинный индекс сразу создаем корень дерева
+		TreeNode root = new TreeNode(nums[medianIdx]);
+		// классический рекурсивный вызов для бинарного поиска
+		root.left = builder(nums, leftIdx, medianIdx - 1);
+		root.right = builder(nums, medianIdx + 1, rightIdx);
+		// возвращяем корень дерева
 		return root;
 	}
 
 	// ------------------Heap--SORTED----------------------
 
+	// сортировка кучей
 	public void heapSort(int[] nums) {
 		int len = nums.length;
 
+		// вызываем процедуру начиная с условной середины и до первого элемента
+		// а длину ей передаем полную
 		for (int idx = len / 2 - 1; idx >= 0; --idx) {
-			heapify(nums, len, idx);
+			heapify(nums, idx, len);
 		}
 
+		// вызываем процедуру с первого элемента и ограничиваем ее индексом элемента
 		for (int idx = len - 1; idx >= 0; --idx) {
+			// перестанавливаем первый элемент
 			int swapItem = nums[0];
 			nums[0] = nums[idx];
 			nums[idx] = swapItem;
 
-			heapify(nums, idx, 0);
+			heapify(nums, 0, idx);
 		}
 	}
 
-	private void heapify(int[] nums, int len, int idx) {
+	// громоздим кучу
+	private void heapify(int[] nums, int idx, int len) {
 		int currentIdx = idx;
+		// по особому создаем новые индексы левый и правый
 		int leftIdx = currentIdx * 2 + 1;
 		int rightIdx = leftIdx + 1;
 
+		// ищем максимальный элемент из 3х
+		// сохраняем его индекс
 		if (leftIdx < len && nums[leftIdx] > nums[currentIdx])
 			currentIdx = leftIdx;
 		if (rightIdx < len && nums[rightIdx] > nums[currentIdx])
 			currentIdx = rightIdx;
 
+		// рекурсивно вызываем процедуру только если поменялся индекс
 		if (currentIdx != idx) {
+			// меняем элементы местами
+			// переданный процедуре и максимальный найденный
 			int swapItem = nums[currentIdx];
 			nums[currentIdx] = nums[idx];
 			nums[idx] = swapItem;
 
-			heapify(nums, len, currentIdx);
+			// вызываем процедуру передав новый индекс
+			heapify(nums, currentIdx, len);
 		}
 	}
 

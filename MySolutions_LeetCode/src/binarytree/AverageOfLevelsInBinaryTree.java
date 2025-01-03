@@ -14,48 +14,57 @@ public class AverageOfLevelsInBinaryTree {
 
 	public List<Double> averageOfLevels(TreeNode root) {
 
-		List<Double> res = new AbstractList<Double>() {
+		// для ускорения - создаем абстрактный лист
+		List<Double> ans = new AbstractList<Double>() {
 
 			List<Double> result = null;
 
 			@Override
 			public int size() {
 				if (result == null)
-					result = swapFunction(root);
+					result = traversalTreeByLevels(root);
 				return result.size();
 			}
 
 			@Override
 			public Double get(int index) {
 				if (result == null)
-					result = swapFunction(root);
+					result = traversalTreeByLevels(root);
 				return result.get(index);
 			}
 		};
 
-		return res;
+		return ans;
 	}
 
-	private List<Double> swapFunction(TreeNode root) {
-		List<Double> result = new ArrayList<>();
+	// основной метод который совершает обход дерева по уровням
+	private List<Double> traversalTreeByLevels(TreeNode root) {
+
+		// создаем результирующий лист
+		List<Double> ans = new ArrayList<>();
+		// создаем очередь и добавляем корень дерева
 		Queue<TreeNode> que = new LinkedList<>();
 		que.add(root);
 
+		// начальный цикл пока очередь не пуста позволит нам закончить обход дерева
 		while (!que.isEmpty()) {
 			int size = que.size();
-			double sum = 0.0;
+			double sumLevel = 0.0;
+			// вложенный цикл позволит обходить по уровням
 			for (int i = 0; i < size; ++i) {
+				// извлекаем узел дерева из очереди начиная с корня
 				TreeNode node = que.poll();
-				sum += node.val;
+				sumLevel += node.val;
 				if (node.left != null)
 					que.add(node.left);
 				if (node.right != null)
 					que.add(node.right);
 			}
-			result.add(sum / size);
+			// добавляем среднее знаечение исходя из количества элементов на уровне
+			ans.add(sumLevel / size);
 		}
 
-		return result;
+		return ans;
 	}
 
 	@Test

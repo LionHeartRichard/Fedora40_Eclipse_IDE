@@ -14,8 +14,11 @@ import org.junit.jupiter.api.Test;
 
 public class LevelOrder {
 
+	// метод для обхода дерева по уровням
+	// конкретно этот метод ускоряет работу за счет абстрактоного листа
 	public List<List<Integer>> levelOrder(TreeNode root) {
 
+		// обрабатываем крайний случай
 		if (root == null)
 			return Collections.emptyList();
 
@@ -26,38 +29,47 @@ public class LevelOrder {
 			@Override
 			public int size() {
 				if (result.isEmpty())
-					result = getListOrderLevel(root);
+					result = traversalTreeByLevels(root);
 				return result.size();
 			}
 
 			@Override
 			public List<Integer> get(int index) {
 				if (result.isEmpty())
-					result = getListOrderLevel(root);
+					result = traversalTreeByLevels(root);
 				return result.get(index);
 			}
 		};
 		return ans;
 	}
 
-	private List<List<Integer>> getListOrderLevel(TreeNode root) {
+	// основной метод обхода дерева по уровням с использованием очереди
+	private List<List<Integer>> traversalTreeByLevels(TreeNode root) {
+		// алоцируем результирующий пустой лист
 		List<List<Integer>> ans = new ArrayList<>();
 
+		// создаем очередь для обхода по уровням
 		Queue<TreeNode> que = new LinkedList<>();
+		// добавляем корень дерева в очередь
 		que.add(root);
 
+		// цикл - который позволяет законцить обход по дереву
 		while (!que.isEmpty()) {
 			int size = que.size();
-			List<Integer> tmp = new ArrayList<>();
+			// создаем список который будет хранить элементы уровней
+			List<Integer> levelItems = new ArrayList<>();
+			// внутренний цикл зависящий от длины очереди
+			// позволяет обходить по уровням
 			for (int count = 0; count < size; ++count) {
+				// извлекаем элемент из очереди
 				TreeNode node = que.poll();
 				if (node.left != null)
 					que.add(node.left);
 				if (node.right != null)
 					que.add(node.right);
-				tmp.add(node.val);
+				levelItems.add(node.val);
 			}
-			ans.add(tmp);
+			ans.add(levelItems);
 		}
 
 		return ans;
