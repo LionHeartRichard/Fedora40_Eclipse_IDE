@@ -11,88 +11,43 @@ import java.util.Set;
 import org.junit.jupiter.api.Test;
 
 public class WordBraek {
-	// 28 - this count english letters
 
-	public boolean wordBreakMySolution(String source, List<String> words) {
-		int[] mapping = getMappingSource(source);
-		Set<String> uniqueWords = getContainsUniqueWords(words, mapping);
+	/*
+	 * Добавить описание задачи
+	 */
 
-		int n = source.length();
-		boolean[] dp = new boolean[n + 1];
+	// это вспомогательный метод для вызова основной логики
+	public boolean wordBreak(String text, List<String> words) {
+		// создаем мыссив для обозначения вхождений
+		// true говорит нам о том что мы нашли для этой части текста слово в словаре
+		boolean cache[] = new boolean[text.length() + 1];
 
-		dp[0] = true;
-		int maxLen = getMaxLen(uniqueWords);
-
-		for (int i = 1; i <= n; ++i) {
-			int len = Math.max(0, i - maxLen - 1);
-			for (int j = i - 1; j >= len; --j) {
-				String swap = source.substring(j, i);
-				if (dp[j] && uniqueWords.contains(swap)) {
-					dp[i] = true;
-					break;
-				}
-			}
-		}
-
-		return dp[n];
+		// вызываем функцию содержаший основную логику
+		return check(text, cache, 0, words);
 	}
 
-	private Set<String> getContainsUniqueWords(List<String> words, int[] mapping) {
-		Set<String> result = new HashSet<>();
-		for (String word : words) {
-			if (isContains(word, mapping))
-				result.add(word);
-		}
-		return result;
-	}
+	// ищем вхождения слов из словаря в тексте
+	private boolean check(String text, boolean[] cache, int startIdx, List<String> words) {
+		int len = text.length();
 
-	private int getMaxLen(Set<String> uniqueWords) {
-		int maxLen = 0;
-		for (String current : uniqueWords) {
-			maxLen = Math.max(maxLen, current.length());
-		}
-		return maxLen;
-	}
-
-	private boolean isContains(String word, int[] mapping) {
-		for (char ch : word.toCharArray()) {
-			if (mapping[ch - 'a'] == 0)
-				return false;
-		}
-		return true;
-	}
-
-	private int[] getMappingSource(String source) {
-		int[] mapping = new int[28];
-		for (char ch : source.toCharArray()) {
-			mapping[ch - 'a'] = 1;
-		}
-		return mapping;
-	}
-
-	// --------------------TOP------------------Solutions!!!!!!!!!!!!!!!
-
-	public boolean wordBreak(String s, List<String> wordDict) {
-		boolean visits[] = new boolean[s.length() + 1];
-
-		return check(s, visits, 0, wordDict);
-	}
-
-	private boolean check(String a, boolean[] visits, int start, List<String> wordDict) {
-		int len = a.length();
-
-		if (visits[start])
+		// крайние случаи
+		if (cache[startIdx])
 			return false;
-		if (len == start)
+		if (len == startIdx)
 			return true;
 
-		for (String word : wordDict) {
-			int offset = start + word.length();
-			if (offset <= len && !visits[offset] && a.startsWith(word, start)) {
-				if (check(a, visits, offset, wordDict)) {
+		// проверяем все слова в словаре на то содержатся ли они в тексте
+		for (String word : words) {
+			int newIdx = startIdx + word.length();
+			// если слово содержится в тексте - то вызываем проверку для следующего слова
+			if (newIdx <= len && !cache[newIdx] && text.startsWith(word, startIdx)) {
+				// рекурсивно производим проверку, для следующего слова
+				// таким образом мы вызовем все проверки и они в итоге либо все пройдут
+				// и мы получим true а инче ...
+				if (check(text, cache, newIdx, words)) {
 					return true;
 				}
-				visits[offset] = true;
+				cache[newIdx] = true;
 			}
 		}
 		return false;
@@ -110,8 +65,6 @@ public class WordBraek {
 		boolean actual = wordBreak(s, wordDict);
 		assertTrue(actual);
 
-		actual = wordBreakMySolution(s, wordDict);
-		assertTrue(actual);
 	}
 
 	@Test
@@ -123,8 +76,6 @@ public class WordBraek {
 		boolean actual = wordBreak(s, wordDict);
 		assertTrue(actual);
 
-		actual = wordBreakMySolution(s, wordDict);
-		assertTrue(actual);
 	}
 
 	@Test
@@ -134,9 +85,6 @@ public class WordBraek {
 		List<String> wordDict = Arrays.asList("cats", "dog", "sand", "and", "cat");
 
 		boolean actual = wordBreak(s, wordDict);
-		assertFalse(actual);
-
-		actual = wordBreakMySolution(s, wordDict);
 		assertFalse(actual);
 
 	}
@@ -150,8 +98,6 @@ public class WordBraek {
 		boolean actual = wordBreak(s, wordDict);
 		assertTrue(actual);
 
-		actual = wordBreakMySolution(s, wordDict);
-		assertTrue(actual);
 	}
 
 	@Test
@@ -163,8 +109,6 @@ public class WordBraek {
 		boolean actual = wordBreak(s, wordDict);
 		assertFalse(actual);
 
-		actual = wordBreakMySolution(s, wordDict);
-		assertFalse(actual);
 	}
 
 	@Test
@@ -176,8 +120,6 @@ public class WordBraek {
 		boolean actual = wordBreak(s, wordDict);
 		assertFalse(actual);
 
-		actual = wordBreakMySolution(s, wordDict);
-		assertFalse(actual);
 	}
 
 	@Test
@@ -189,8 +131,6 @@ public class WordBraek {
 		boolean actual = wordBreak(s, wordDict);
 		assertTrue(actual);
 
-		actual = wordBreakMySolution(s, wordDict);
-		assertTrue(actual);
 	}
 
 	@Test
@@ -202,8 +142,6 @@ public class WordBraek {
 		boolean actual = wordBreak(s, wordDict);
 		assertTrue(actual);
 
-		actual = wordBreakMySolution(s, wordDict);
-		assertTrue(actual);
 	}
 
 }

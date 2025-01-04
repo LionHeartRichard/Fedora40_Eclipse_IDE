@@ -25,11 +25,17 @@ public class HouseRobber {
 	}
 
 	private int recursionWithCach(int[] nums, int n) {
+		// база рекурсии
 		if (n <= 1)
 			return cach[n];
+		// условие на проверку сохранности значения функции в кэше
 		if (cach[n] == -1) {
+			// проверка домов через один или через два лучше для наибольшего результата
 			cach[n] = Math.max(recursionWithCach(nums, n - 1), nums[n] + recursionWithCach(nums, n - 2));
 		}
+		// если мы уже вычисляли значение функции то возвращяем значение кэша без
+		// вычислений - вызова функций
+		// и построения дерева вызовов
 		return cach[n];
 	}
 

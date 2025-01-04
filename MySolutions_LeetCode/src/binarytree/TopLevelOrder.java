@@ -10,25 +10,32 @@ import org.junit.jupiter.api.Test;
 
 public class TopLevelOrder {
 
-	// алгоритм обхода дерева по уровням при помощи рекрсивного вызова процедуры
+	// алгоритм обхода дерева по уровням при помощи рекурсивного вызова процедуры
 	public List<List<Integer>> levelOrder(TreeNode root) {
 		List<List<Integer>> ans = new ArrayList<>();
 		traversalTreeByLevels(root, ans, 0);
 		return ans;
 	}
 
-	private void traversalTreeByLevels(TreeNode root, List<List<Integer>> ans, int currentHeight) {
+	// процедура по обходу уровней дерева
+	private void traversalTreeByLevels(TreeNode root, List<List<Integer>> ans, int countElements) {
 
+		// базовый - крайний случай
 		if (root == null)
 			return;
 
-		if (ans.size() - 1 < currentHeight)
+		// создаем новый подсписок в зависимости от высоты дерева
+		// количества элементов в уровне
+		if (ans.size() - 1 < countElements)
 			ans.add(new ArrayList<>());
 
-		ans.get(currentHeight).add(root.val);
+		// добавляем значения в список
+		ans.get(countElements).add(root.val);
 
-		traversalTreeByLevels(root.left, ans, currentHeight + 1);
-		traversalTreeByLevels(root.right, ans, currentHeight + 1);
+		// вызов процедуры для левого и правого поддерева
+		// добавляем количество элементов соответственно вызову
+		traversalTreeByLevels(root.left, ans, countElements + 1);
+		traversalTreeByLevels(root.right, ans, countElements + 1);
 	}
 
 	@Test
