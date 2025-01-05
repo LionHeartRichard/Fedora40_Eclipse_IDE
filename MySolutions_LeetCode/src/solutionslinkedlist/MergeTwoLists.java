@@ -6,9 +6,12 @@ import org.junit.jupiter.api.Test;
 
 public class MergeTwoLists {
 
+	// классический алгоритм подобный объединению массивов
 	public ListNode mergeTwoLists(ListNode list1, ListNode list2) {
+		// создаем дамми
 		ListNode dummy = new ListNode();
 		dummy.next = null;
+		// создаем переменную для того чтобы ссылка на голову оставалась не изменной
 		ListNode swap = dummy;
 
 		while (list1 != null && list2 != null) {

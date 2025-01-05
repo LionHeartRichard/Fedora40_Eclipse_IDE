@@ -9,29 +9,39 @@ import org.junit.jupiter.api.Test;
 
 public class RemoveNthFromEnd {
 
+	/*
+	 * Удалить N - элемент списка с конца
+	 */
+
 	public ListNode removeNthFromEnd(ListNode head, int n) {
 
 		ListNode dummy = new ListNode(0); // Используем паттерн Dummy, чтобы при необходимости удалить голову
 		// а также позволит проще удалить элемент через .next.next;
 		dummy.next = head;
 
-		ListNode first = dummy;
-		ListNode second = dummy;
+		// создаем две переменные для работы
+		// два указателя первый быстрый сместится и передаст во второй предыдущий
+		// элемент перед удалением
+		// создали первый указатель
+		ListNode fastPoint = dummy;
 
-		// Смещяемся на n+1 шагов чтобы созать необходимый интервал, отступ
+		// Смещяемся на n+1 шагов
+		// цикл начинаем с нуля потому что "дамму" используем
 		for (int i = 0; i <= n; i++) {
-			first = first.next;
+			fastPoint = fastPoint.next;
 		}
 
+		// создали второй медленный указатель
+		ListNode slowPoint = dummy;
 		// так как первая НОДА смещена, то она станет пустой как раз где нам немобходимо
 		// и вторая нода ВСТАНЕТ на место как раз перед элементом который мы удаляем
-		while (first != null) {
-			first = first.next;
-			second = second.next;
+		while (fastPoint != null) {
+			fastPoint = fastPoint.next;
+			slowPoint = slowPoint.next;
 		}
 
 		// Удаляем элемент
-		second.next = second.next.next;
+		slowPoint.next = slowPoint.next.next;
 
 		return dummy.next; // Возвращяем измененный лист
 	}

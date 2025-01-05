@@ -16,6 +16,7 @@ public class RemoveNthFromBegin {
 		ListNode dummy = new ListNode();
 		dummy.next = head;
 
+		// создаем переменную чтобы ссылка на гоову оставалась неизменной
 		ListNode next = dummy;
 
 		// перемещяемся по списку не доходя до удаляемого значения

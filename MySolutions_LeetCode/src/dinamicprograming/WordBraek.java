@@ -33,6 +33,8 @@ public class WordBraek {
 		// крайние случаи
 		if (cache[startIdx])
 			return false;
+
+		// база рекурсии
 		if (len == startIdx)
 			return true;
 

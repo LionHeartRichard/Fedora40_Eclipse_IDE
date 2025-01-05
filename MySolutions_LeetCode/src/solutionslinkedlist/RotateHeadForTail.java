@@ -1,14 +1,14 @@
 package solutionslinkedlist;
 
 import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
 import java.util.Arrays;
-
 import org.junit.jupiter.api.Test;
 
 public class RotateHeadForTail {
+
+	/*
+	 * Нужно переставить голову с хвостом
+	 */
 
 	public ListNode rotateHeadForTail(ListNode head) {
 
@@ -19,33 +19,26 @@ public class RotateHeadForTail {
 
 		// исключаем первый элемент из списка и сохраняем его
 		ListNode last = head.next;
+		// создаем новый хвост
 		ListNode newTail = new ListNode(head.val);
 
 		// считаем длину списка и находим крайний элемент
-		int len = 2;
+		int len = 0;
 
 		while (last.next != null) {
 			last = last.next;
 			++len;
 		}
 
-		// еще один крайний случай
-		if (len == 2) {
-			last.next = newTail;
-			return last;
-		}
-
 		// создаем зацикленный элемент начинающийся с последнего
 		// причем мы исключаем первый элемент из списка
 		last.next = head.next;
 
-		// 2 - так как мы уменьшили общую длину списка исключив голову
-		// и еще -1 так как переставляем весь список, т.е. хвост в начало!!!
-		len -= 2;
 		while (len-- > 0) {
 			last = last.next;
 		}
 
+		// зацкливаем результирующий список
 		head = last.next;
 		// обрубаем бесконечный элемент и подставляем новый хвост!!!!
 		last.next = newTail;

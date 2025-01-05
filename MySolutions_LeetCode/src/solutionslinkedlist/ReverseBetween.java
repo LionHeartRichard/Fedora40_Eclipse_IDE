@@ -9,6 +9,11 @@ import org.junit.jupiter.api.Test;
 
 public class ReverseBetween {
 
+	/*
+	 * Требуется осуществить реверс части списка начиная с левого до правого
+	 * включительно
+	 */
+
 	public ListNode reverseBetween(ListNode head, int leftIdx, int rightIdx) {
 
 		// Обрабатываем крайние случаи
@@ -38,10 +43,11 @@ public class ReverseBetween {
 		// меняются, меняется только значения dummy
 		for (int i = 0; i < rightIdx - leftIdx; ++i) {
 
-			// создаем третий список который смещяется еще на один элемент
+			// создаем третий список ВНУТРИ ЦИКЛА - который смещяется еще на один элемент
 			ListNode third = second.next;
 
-			// осуществляю перестановку не меняя сами списки
+			// осуществляю перестановку не меняя сами списки благодаря полю next
+			// по принципу револьвера
 			second.next = third.next;
 			third.next = first.next;
 			first.next = third;
@@ -50,14 +56,20 @@ public class ReverseBetween {
 		return dummy.next;
 	}
 
+	// классический реверс связного списка
 	public ListNode reverse(ListNode head) {
+		// назначаем предыдущий элемент
 		ListNode previous = null;
 
+		// пока указатель на голову не null осуществляем перестановку
 		while (head != null) {
+			// создаем элемент который позволяет двигатся по списку
 			ListNode swap = head.next;
 
+			// переставили
 			head.next = previous;
 			previous = head;
+			// продвинулись
 			head = swap;
 		}
 		return previous;

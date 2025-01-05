@@ -8,16 +8,27 @@ import org.junit.jupiter.api.Test;
 
 public class TopArrowAndBalls {
 
+	/*
+	 * У нас есть воздушные шарики расположенные на одной плоскости представленные
+	 * матрицей points Сколько потребуется стрел для поражения всех шаров
+	 */
+
 	public int findMinArrowShots(int[][] points) {
 		if (points.length == 0)
 			return 0;
 
+		// сортируем двумерный массив по его вторым элементам
+		// т.е. по конечной границе интревала
 		Arrays.sort(points, (a, b) -> Integer.compare(a[1], b[1]));
 
+		// как минимум нам понадобится одна стрела
 		int arrows = 1;
+		// задаем начальную позицию для проверки вхождения интервалов
 		int currentEnd = points[0][1];
 
 		for (int idx = 0; idx < points.length; ++idx) {
+			// если мы вышли за предел интервала следовательно нам понадобиться еще одна
+			// стрела для поражения шариков
 			if (currentEnd < points[idx][0]) {
 				++arrows;
 				currentEnd = points[idx][1];
