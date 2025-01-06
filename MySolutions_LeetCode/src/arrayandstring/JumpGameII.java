@@ -14,6 +14,7 @@ import org.junit.jupiter.api.Test;
  */
 
 // изящное решение
+// паттерн медленный и быстрый указатель 
 public class JumpGameII {
 
 	public int jump(int[] nums) {
@@ -21,19 +22,23 @@ public class JumpGameII {
 		int len = nums.length;
 		int countJumps = 0;
 
-		int maxJump = 0;
-		int keepMaxJump = 0;
+		// создаем быстрый индекс который будет равен максимальному возможному прыжку в
+		// настоящий момент
+		int fastIdx = 0;
+		// сохраняем предыдущее место положение для того чтобы знать сколько прыжков нам
+		// нужно совершить
+		int keepFastIdx = 0;
 
-		for (int idx = 0; idx < len - 1; ++idx) {
+		for (int slowIdx = 0; slowIdx < len - 1; ++slowIdx) {
 
 			// ищем максимальный прыжок который можем совершить
-			maxJump = Math.max(maxJump, idx + nums[idx]);
+			fastIdx = Math.max(fastIdx, slowIdx + nums[slowIdx]);
 
 			// если мы проитерировались до сохраненного прыжка следовательно
 			// мы прибавляем кол-во прыжков
-			if (keepMaxJump == idx) {
+			if (keepFastIdx == slowIdx) {
 				++countJumps;
-				keepMaxJump = maxJump;
+				keepFastIdx = fastIdx;
 			}
 		}
 

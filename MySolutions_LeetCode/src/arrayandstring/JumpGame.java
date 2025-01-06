@@ -5,30 +5,29 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
-/*
- * Мы можем начать прыгать с первого индекса
- * нам необходимо пропрыгать до конца
- * нам нельзя иметь 0 в начале массива, если только это не массив из одного элемента 
- */
-
+// паттерн медленный и быстрый указатель
 public class JumpGame {
 
 	public boolean canJump(int[] nums) {
 
 		int len = nums.length;
 		// создаем переменную куда будем записывать максимальный возможный прыжок
-		int maxJump = 0;
+		// это быстрое перемещение по массиву согласно задачи, поэтому быстрый
+		// указатель-индекс
+		int fastIdx = 0;
 
 		// итерируемся по всему массиву
-		for (int idx = 0; idx < len; ++idx) {
+		for (int slowIdx = 0; slowIdx < len; ++slowIdx) {
 			// если индекс превысил максимальный прыжок, значит нет больше возможности
 			// прыгать
-			if (idx > maxJump)
+			// критическое условие для всех алгоритмов этого паттерна
+			// при достижении-превышении медленного указателя над быстрым
+			if (slowIdx > fastIdx)
 				return false;
 			// узнаем что больше максимальный прыжок или сколько мы проитерировались
-			maxJump = Math.max(maxJump, idx + nums[idx]);
+			fastIdx = Math.max(fastIdx, slowIdx + nums[slowIdx]);
 			// если мы пропрыгали до последнего элемента то true
-			if (maxJump >= len - 1)
+			if (fastIdx >= len - 1)
 				return true;
 		}
 		return false;
