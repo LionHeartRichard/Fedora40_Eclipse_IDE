@@ -22,26 +22,26 @@ public class ProductOfArrayExceptSelf {
 	 */
 
 	static {
-		for (int i = 0; i < 500; i++) {
+		for (int idx = 0; idx < 500; ++idx) {
 			productExceptSelf(new int[] { 0, 0 });
 		}
 	}
 
 	public static int[] productExceptSelf(int[] nums) {
-		int n = nums.length;
-		int ans[] = new int[n];
+		int len = nums.length;
+		int ans[] = new int[len];
 		// префикс, так как слева нет элементов то присваиваем 1
 		ans[0] = 1;
 		// умножаем все элементы слева от элемента
-		for (int i = 1; i < nums.length; i++) {
-			ans[i] = ans[i - 1] * nums[i - 1];
+		for (int idx = 1; idx < len; ++idx) {
+			ans[idx] = ans[idx - 1] * nums[idx - 1];
 		}
 
 		int suffix = 1;
 		// умножаем все элементы справа от элемента
-		for (int i = n - 2; i >= 0; i--) {
-			suffix = suffix * nums[i + 1];
-			ans[i] = ans[i] * suffix;
+		for (int idx = len - 2; idx >= 0; --idx) {
+			suffix = suffix * nums[idx + 1];
+			ans[idx] = ans[idx] * suffix;
 		}
 		return ans;
 	}
