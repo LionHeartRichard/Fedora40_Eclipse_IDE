@@ -13,6 +13,7 @@ import java.util.Set;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 public class Main {
 
@@ -31,24 +32,27 @@ public class Main {
 		users.add(us3);
 
 		User root = new User("0", "ROOT");
+
 		Map<User, Set<User>> adjacent = new HashMap<>();
 		adjacent.put(root, users);
 
 		save(adjacent);
 
-		Map<User, Set<User>> loadAdjacent = load();
+		Map<User, HashSet<User>> loadAdjacent = load();
 		loadAdjacent.forEach((k, v) -> System.out.println(k + ": " + v));
 	}
 
-	private static Map<User, Set<User>> load() throws IOException {
+	private static Map<User, HashSet<User>> load() throws IOException {
 		try (FileReader reader = new FileReader(PATH_MAP); BufferedReader buffer = new BufferedReader(reader)) {
 			StringBuilder source = new StringBuilder();
 			String line;
 			while ((line = buffer.readLine()) != null) {
 				source.append(line);
 			}
-			Map<User, Set<User>> adjacent = mapper.readValue(source.toString(), new TypeReference<>() {
-			});
+			String users = source.toString();
+			TypeReference<HashMap<User, HashSet<User>>> typeRef = new TypeReference<>() {
+			};
+			Map<User, HashSet<User>> adjacent = mapper.readValue(users, typeRef);
 			return adjacent;
 		} catch (IOException e) {
 			e.printStackTrace();

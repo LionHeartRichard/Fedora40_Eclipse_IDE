@@ -3,16 +3,23 @@ package main;
 import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonKey;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonValue;
 
+import lombok.NoArgsConstructor;
+
+@NoArgsConstructor
 @JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, include = JsonTypeInfo.As.PROPERTY, property = "type")
 public class User {
 	private String id;
 	private String name;
 
-	public User() {
-
+	public User(String user) {
+		String[] filds = user.split(" ");
+		this.id = filds[0];
+		this.name = filds[1];
 	}
 
 	@JsonCreator
@@ -53,7 +60,14 @@ public class User {
 	}
 
 	@Override
+	@JsonValue
 	public String toString() {
-		return String.format("User{id='%s', name='%s'}", id, name);
+		return id + " " + name;
 	}
+
+//	@Override
+//	@JsonValue
+//	public String toString() {
+//		return String.format("User{id='%s', name='%s'}", id, name);
+//	}
 }
