@@ -16,9 +16,17 @@ public class CustomJsonUserSerializer extends JsonSerializer<User> {
 	@Override
 	public void serialize(User user, JsonGenerator generator, SerializerProvider provider)
 			throws IOException, JsonProcessingException {
-		StringWriter writer = new StringWriter();
-		mapper.writeValue(writer, user);
-		generator.writeFieldName(writer.toString());
+
+//		StringWriter writer = new StringWriter();
+//		mapper.writeValue(writer, user);
+//		generator.writeFieldName(writer.toString());
+
+		generator.writeStartObject();
+		generator.writeStringField("type", user.getClass().getName()); // добавляем поле type
+		generator.writeStringField("id", user.getId());
+		generator.writeStringField("name", user.getName());
+		generator.writeEndObject();
+
 	}
 
 }
