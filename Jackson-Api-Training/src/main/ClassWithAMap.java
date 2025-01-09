@@ -1,5 +1,6 @@
 package main;
 
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -10,18 +11,18 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 public class ClassWithAMap {
 	@JsonProperty("map")
 	@JsonDeserialize(keyUsing = CustomJsonUserDeserializer.class)
-	private Map<User, Set<User>> map;
+	private Map<User, HashSet<User>> map;
 
 	@JsonCreator
-	public ClassWithAMap(Map<User, Set<User>> map) {
+	public ClassWithAMap(Map<User, HashSet<User>> map) {
 		this.map = map;
 	}
 
-	public Map<User, Set<User>> getMap() {
+	public Map<User, HashSet<User>> getMap() {
 		return map;
 	}
 
-	public void setMap(Map<User, Set<User>> map) {
+	public void setMap(Map<User, HashSet<User>> map) {
 		this.map = map;
 	}
 
