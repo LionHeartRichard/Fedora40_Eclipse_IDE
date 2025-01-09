@@ -12,16 +12,16 @@ import java.util.Set;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.module.SimpleModule;
 
 public class Main {
-
-	private static final String PATH_MAP = "/home/kerrigan_kein/eclipse-workspace/Jackson-Api-Training/resources/map.json";
+	private static final String PATH_MAP = "/home/kerrigan_kein/eclipse-workspace/Jackson-Api-Training/resources/graph.json";
 
 	private static ObjectMapper mapper = new ObjectMapper();
 
 	public static void main(String[] args) throws IOException {
 
-		Set<User> users = new HashSet<>();
+		Set<Human> users = new HashSet<>();
 		User us1 = new User("1", "User1");
 		users.add(us1);
 		User us2 = new User("2", "User2");
@@ -31,16 +31,16 @@ public class Main {
 
 		User root = new User("0", "ROOT");
 
-		Map<User, Set<User>> adjacent = new HashMap<>();
+		Map<Human, Set<Human>> adjacent = new HashMap<>();
 		adjacent.put(root, users);
 
 		save(adjacent);
 
-		Map<User, HashSet<User>> loadAdjacent = load();
+		Map<Human, HashSet<Human>> loadAdjacent = load();
 		loadAdjacent.forEach((k, v) -> System.out.println(k + ": " + v));
 	}
 
-	private static Map<User, HashSet<User>> load() throws IOException {
+	private static Map<Human, HashSet<Human>> load() throws IOException {
 		try (FileReader reader = new FileReader(PATH_MAP); BufferedReader buffer = new BufferedReader(reader)) {
 			StringBuilder source = new StringBuilder();
 			String line;
@@ -48,9 +48,11 @@ public class Main {
 				source.append(line);
 			}
 			String users = source.toString();
-			TypeReference<HashMap<User, HashSet<User>>> typeRef = new TypeReference<>() {
+
+			TypeReference<HashMap<Human, HashSet<Human>>> typeRef = new TypeReference<>() {
 			};
-			Map<User, HashSet<User>> adjacent = mapper.readValue(users, typeRef);
+
+			Map<Human, HashSet<Human>> adjacent = mapper.readValue(users, typeRef);
 			return adjacent;
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -58,7 +60,7 @@ public class Main {
 		}
 	}
 
-	private static void save(Map<User, Set<User>> adjacent) {
+	private static void save(Map<Human, Set<Human>> adjacent) {
 		try (FileWriter writer = new FileWriter(PATH_MAP); BufferedWriter buffer = new BufferedWriter(writer)) {
 
 			String json = mapper.writeValueAsString(adjacent);
@@ -68,5 +70,4 @@ public class Main {
 			e.printStackTrace();
 		}
 	}
-
 }
