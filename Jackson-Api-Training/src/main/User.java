@@ -17,7 +17,7 @@ public class User {
 	private String name;
 
 	public User(String user) {
-		String[] filds = user.split(" ");
+		String[] filds = user.split("|");
 		this.id = filds[0];
 		this.name = filds[1];
 	}
@@ -62,7 +62,7 @@ public class User {
 	@Override
 	@JsonValue
 	public String toString() {
-		return id + " " + name;
+		return id + "|" + name;
 	}
 
 //	@Override
