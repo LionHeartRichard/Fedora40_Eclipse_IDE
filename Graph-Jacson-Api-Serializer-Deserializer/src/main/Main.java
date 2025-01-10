@@ -21,7 +21,7 @@ public class Main {
 
 	public static void main(String[] args) throws IOException {
 
-		Set<User> users = new HashSet<>();
+		Set<Human> users = new HashSet<>();
 		User us1 = new User("1", "User1");
 		users.add(us1);
 		User us2 = new User("2", "User2");
@@ -30,21 +30,10 @@ public class Main {
 		users.add(us3);
 
 		User root = new User("0", "ROOT");
-		Map<User, Set<User>> adjacent = new HashMap<>();
+		Map<Human, Set<Human>> adjacent = new HashMap<>();
 		adjacent.put(root, users);
 
-		/*
-		 * ObjectMapper mapper = new ObjectMapper(); SimpleModule module = new
-		 * SimpleModule(); module.addDeserializer(Wrapper.class, new
-		 * WrapperDeserializer()); mapper.registerModule(module);
-		 * 
-		 * Item readValue = mapper.readValue(json, Item.class);
-		 * System.out.println("idx = " + readValue.id); System.out.println("itemName = "
-		 * + readValue.itemName); System.out.println("owner = " +
-		 * readValue.owner.getValue().toString());
-		 */
-
-		Graph<User> graph = new Graph<>();
+		Graph<Human> graph = new Graph<>();
 		graph.setAdjacencyList(adjacent);
 		Element element = new Element();
 		element.setIdElemnt(12);
@@ -56,9 +45,6 @@ public class Main {
 		System.out.println(elementLoad.getIdElemnt());
 		System.out.println(elementLoad.getNameElemnt());
 		elementLoad.getGraphElement().getAdjacencyList().forEach((k, v) -> System.out.println(k + " " + v));
-//		save(graph);
-//
-//		Graph<User> newGraph = load();
 
 	}
 

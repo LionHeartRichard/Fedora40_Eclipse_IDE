@@ -2,6 +2,7 @@ package main.customtype;
 
 import lombok.Getter;
 import lombok.Setter;
+import main.Human;
 import main.User;
 
 @Getter
@@ -9,5 +10,5 @@ import main.User;
 public class Item {
 	private int id;
 	private String itemName;
-	private Wrapper<User> owner;
+	private Wrapper<Human> owner;
 }
