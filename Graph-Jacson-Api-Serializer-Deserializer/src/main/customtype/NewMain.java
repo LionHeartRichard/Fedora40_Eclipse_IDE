@@ -17,6 +17,6 @@ public class NewMain {
 		Item readValue = mapper.readValue(json, Item.class);
 		System.out.println("idx = " + readValue.id);
 		System.out.println("itemName = " + readValue.itemName);
-		System.out.println("owner = " + readValue.owner.toString());
+		System.out.println("owner = " + readValue.owner.getValue().toString());
 	}
 }

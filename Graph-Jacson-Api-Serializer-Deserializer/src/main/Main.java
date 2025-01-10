@@ -14,6 +14,10 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 
+import main.customtype.Item;
+import main.customtype.Wrapper;
+import main.customtype.WrapperDeserializer;
+
 public class Main {
 	private static final String PATH_MAP = "/home/kerrigan_kein/eclipse-workspace/Jackson-Api-Training/resources/graph.json";
 
@@ -21,7 +25,7 @@ public class Main {
 
 	public static void main(String[] args) throws IOException {
 
-		Set<Human> users = new HashSet<>();
+		Set<User> users = new HashSet<>();
 		User us1 = new User("1", "User1");
 		users.add(us1);
 		User us2 = new User("2", "User2");
@@ -30,17 +34,30 @@ public class Main {
 		users.add(us3);
 
 		User root = new User("0", "ROOT");
-
-		Map<Human, Set<Human>> adjacent = new HashMap<>();
+		Map<User, Set<User>> adjacent = new HashMap<>();
 		adjacent.put(root, users);
 
-		save(adjacent);
+		/*
+		 * ObjectMapper mapper = new ObjectMapper(); SimpleModule module = new
+		 * SimpleModule(); module.addDeserializer(Wrapper.class, new
+		 * WrapperDeserializer()); mapper.registerModule(module);
+		 * 
+		 * Item readValue = mapper.readValue(json, Item.class);
+		 * System.out.println("idx = " + readValue.id); System.out.println("itemName = "
+		 * + readValue.itemName); System.out.println("owner = " +
+		 * readValue.owner.getValue().toString());
+		 */
 
-		Map<Human, HashSet<Human>> loadAdjacent = load();
-		loadAdjacent.forEach((k, v) -> System.out.println(k + ": " + v));
+		Graph<User> graph = new Graph<>();
+		graph.setGraph(adjacent);
+
+		save(graph);
+
+		Graph<User> newGraph = load();
+
 	}
 
-	private static Map<Human, HashSet<Human>> load() throws IOException {
+	private static Graph<User> load() throws IOException {
 		try (FileReader reader = new FileReader(PATH_MAP); BufferedReader buffer = new BufferedReader(reader)) {
 			StringBuilder source = new StringBuilder();
 			String line;
@@ -49,21 +66,25 @@ public class Main {
 			}
 			String users = source.toString();
 
-			TypeReference<HashMap<Human, HashSet<Human>>> typeRef = new TypeReference<>() {
+			SimpleModule module = new SimpleModule();
+			module.addDeserializer(Graph.class, new GraphDeserializer());
+			mapper.registerModule(module);
+
+			TypeReference<Graph<User>> typeRef = new TypeReference<>() {
 			};
 
-			Map<Human, HashSet<Human>> adjacent = mapper.readValue(users, typeRef);
-			return adjacent;
+			Graph<User> graph = mapper.readValue(users, typeRef);
+			return graph;
 		} catch (IOException e) {
 			e.printStackTrace();
 			throw new IOException();
 		}
 	}
 
-	private static void save(Map<Human, Set<Human>> adjacent) {
+	private static void save(Graph<User> graph) {
 		try (FileWriter writer = new FileWriter(PATH_MAP); BufferedWriter buffer = new BufferedWriter(writer)) {
 
-			String json = mapper.writeValueAsString(adjacent);
+			String json = mapper.writeValueAsString(graph);
 
 			buffer.write(json);
 		} catch (IOException e) {

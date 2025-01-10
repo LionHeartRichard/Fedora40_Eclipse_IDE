@@ -1,7 +1,7 @@
 package main.customtype;
 
 public class Wrapper<T> {
-	T value;
+	private T value;
 
 	public T getValue() {
 		return value;

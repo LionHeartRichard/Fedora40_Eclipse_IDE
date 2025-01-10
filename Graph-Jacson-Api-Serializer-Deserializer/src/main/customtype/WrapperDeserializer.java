@@ -23,17 +23,16 @@ public class WrapperDeserializer extends JsonDeserializer<Wrapper<?>> implements
 	}
 
 	@Override
-	public JsonDeserializer<?> createContextual(DeserializationContext context, BeanProperty property) {
-		JavaType wrapperType = property.getType().containedType(0);
-		return new WrapperDeserializer(wrapperType);
+	public Wrapper<?> deserialize(JsonParser parser, DeserializationContext context) throws IOException {
+		Wrapper<?> wrapper = new Wrapper<>();
+		wrapper.setValue(context.readValue(parser, type));
+		return wrapper;
 	}
 
 	@Override
-	public Wrapper<?> deserialize(JsonParser jsonParser, DeserializationContext deserializationContext)
-			throws IOException {
-		Wrapper<?> wrapper = new Wrapper<>();
-		wrapper.setValue(deserializationContext.readValue(jsonParser, type));
-		return wrapper;
+	public JsonDeserializer<?> createContextual(DeserializationContext context, BeanProperty property) {
+		JavaType wrapperType = property.getType().containedType(0);
+		return new WrapperDeserializer(wrapperType);
 	}
 
 }

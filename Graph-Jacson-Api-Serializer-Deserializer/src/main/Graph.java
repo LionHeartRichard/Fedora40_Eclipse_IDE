@@ -8,9 +8,24 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
+//@JsonDeserialize(using = GraphDeserializer.class)
 public class Graph<T> {
+
+	private T value;
+
+	public T getValue() {
+		return value;
+	}
+
+	public void setValue(T value) {
+		this.value = value;
+	}
 
 	private Map<T, Set<T>> adjacencyList = new HashMap<>();
 	private Set<T> cacheDFS = new HashSet<>();
@@ -18,6 +33,7 @@ public class Graph<T> {
 	public Graph() {
 	}
 
+	@JsonCreator
 	public Graph(Map<T, Set<T>> adjacent) {
 		this.adjacencyList.clear();
 		this.adjacencyList = adjacent;
