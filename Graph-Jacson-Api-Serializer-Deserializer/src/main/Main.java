@@ -14,10 +14,6 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 
-import main.customtype.Item;
-import main.customtype.Wrapper;
-import main.customtype.WrapperDeserializer;
-
 public class Main {
 	private static final String PATH_MAP = "/home/kerrigan_kein/eclipse-workspace/Jackson-Api-Training/resources/graph.json";
 
@@ -49,46 +45,52 @@ public class Main {
 		 */
 
 		Graph<User> graph = new Graph<>();
-		graph.setGraph(adjacent);
+		graph.setAdjacencyList(adjacent);
+		Element element = new Element();
+		element.setIdElemnt(12);
+		element.setNameElemnt("Name-Elemnts");
+		element.setGraphElement(graph);
+		saveElement(element);
+		Element elementLoad = loadElement();
 
-		save(graph);
-
-		Graph<User> newGraph = load();
+		System.out.println(elementLoad.getIdElemnt());
+		System.out.println(elementLoad.getNameElemnt());
+		elementLoad.getGraphElement().getAdjacencyList().forEach((k, v) -> System.out.println(k + " " + v));
+//		save(graph);
+//
+//		Graph<User> newGraph = load();
 
 	}
 
-	private static Graph<User> load() throws IOException {
+	private static void saveElement(Element element) {
+		try (FileWriter writer = new FileWriter(PATH_MAP); BufferedWriter buffer = new BufferedWriter(writer)) {
+
+			String json = mapper.writeValueAsString(element);
+
+			buffer.write(json);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	private static Element loadElement() throws IOException {
 		try (FileReader reader = new FileReader(PATH_MAP); BufferedReader buffer = new BufferedReader(reader)) {
 			StringBuilder source = new StringBuilder();
 			String line;
 			while ((line = buffer.readLine()) != null) {
 				source.append(line);
 			}
-			String users = source.toString();
+			String json = source.toString();
 
 			SimpleModule module = new SimpleModule();
 			module.addDeserializer(Graph.class, new GraphDeserializer());
 			mapper.registerModule(module);
 
-			TypeReference<Graph<User>> typeRef = new TypeReference<>() {
-			};
-
-			Graph<User> graph = mapper.readValue(users, typeRef);
-			return graph;
+			Element readValue = mapper.readValue(json, Element.class);
+			return readValue;
 		} catch (IOException e) {
 			e.printStackTrace();
 			throw new IOException();
-		}
-	}
-
-	private static void save(Graph<User> graph) {
-		try (FileWriter writer = new FileWriter(PATH_MAP); BufferedWriter buffer = new BufferedWriter(writer)) {
-
-			String json = mapper.writeValueAsString(graph);
-
-			buffer.write(json);
-		} catch (IOException e) {
-			e.printStackTrace();
 		}
 	}
 }

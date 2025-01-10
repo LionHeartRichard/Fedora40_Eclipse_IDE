@@ -1,9 +1,13 @@
 package main.customtype;
 
+import lombok.Getter;
+import lombok.Setter;
 import main.User;
 
+@Getter
+@Setter
 public class Item {
-	public int id;
-	public String itemName;
-	public Wrapper<User> owner;
+	private int id;
+	private String itemName;
+	private Wrapper<User> owner;
 }

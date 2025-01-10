@@ -45,14 +45,14 @@ public class GraphDeserializer extends JsonDeserializer<Graph<?>> implements Con
 		 */
 
 		Graph<?> graph = new Graph<>();
-		graph.setValue(context.readValue(parser, type));
+		// graph.setValue(context.readValue(parser, type));
 
 		ObjectMapper mapper = (ObjectMapper) parser.getCodec();
 
 		JavaType setType = mapper.getTypeFactory().constructCollectionType(Set.class, type);
 		MapType mapType = mapper.getTypeFactory().constructMapType(Map.class, type, setType);
 
-		graph.setGraph(mapper.readValue(parser, mapType));
+		graph.setAdjacencyList(mapper.readValue(parser, mapType));
 
 		return graph;
 	}

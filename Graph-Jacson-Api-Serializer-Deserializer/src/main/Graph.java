@@ -14,18 +14,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
-//@JsonDeserialize(using = GraphDeserializer.class)
 public class Graph<T> {
-
-	private T value;
-
-	public T getValue() {
-		return value;
-	}
-
-	public void setValue(T value) {
-		this.value = value;
-	}
 
 	private Map<T, Set<T>> adjacencyList = new HashMap<>();
 	private Set<T> cacheDFS = new HashSet<>();
@@ -135,15 +124,16 @@ public class Graph<T> {
 		adjacencyList.remove(vertex);
 	}
 
-	public Map<T, Set<T>> getGraph() {
-		return adjacencyList;
-	}
-
 	public boolean containsKey(T vertex) {
 		return adjacencyList.containsKey(vertex);
 	}
 
-	public void setGraph(Map<T, Set<T>> graph) {
-		this.adjacencyList = graph;
+	@JsonAnyGetter
+	public Map<T, Set<T>> getAdjacencyList() {
+		return adjacencyList;
+	}
+
+	public void setAdjacencyList(Map<T, Set<T>> adjacencyList) {
+		this.adjacencyList = adjacencyList;
 	}
 }
