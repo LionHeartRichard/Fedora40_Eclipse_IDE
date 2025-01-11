@@ -4,8 +4,15 @@ import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+@JsonTypeName("USER")
 public class User implements Human {
 
 	private String id;
@@ -28,26 +35,6 @@ public class User implements Human {
 	}
 
 	@Override
-	public String getId() {
-		return id;
-	}
-
-	@Override
-	public void setId(String id) {
-		this.id = id;
-	}
-
-	@Override
-	public String getName() {
-		return name;
-	}
-
-	@Override
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
@@ -61,6 +48,16 @@ public class User implements Human {
 	public int hashCode() {
 		return Objects.hash(id, name);
 	}
+
+//	@Override 
+//	@JsonValue // Предоставляет строковое представление объекта при сериализации.
+//	public String toString() { return "ID: " + id + ", Name: " + name; }
+
+//	@Override
+//	@JsonValue
+//	public String toString() {
+//		return "{\"id\":\"" + id + "\"name\":\"" + name + "\", \"type\":\"USER\"}";
+//	}
 
 	@Override
 	@JsonValue

@@ -21,7 +21,7 @@ public class Main {
 
 	public static void main(String[] args) throws IOException {
 
-		Set<Human> users = new HashSet<>();
+		Set<User> users = new HashSet<>();
 		User us1 = new User("1", "User1");
 		users.add(us1);
 		User us2 = new User("2", "User2");
@@ -30,10 +30,10 @@ public class Main {
 		users.add(us3);
 
 		User root = new User("0", "ROOT");
-		Map<Human, Set<Human>> adjacent = new HashMap<>();
+		Map<User, Set<User>> adjacent = new HashMap<>();
 		adjacent.put(root, users);
 
-		Graph<Human> graph = new Graph<>();
+		Graph<User> graph = new Graph<>();
 		graph.setAdjacencyList(adjacent);
 		Element element = new Element();
 		element.setIdElemnt(12);

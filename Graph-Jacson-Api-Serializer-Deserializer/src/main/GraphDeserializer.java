@@ -39,14 +39,7 @@ public class GraphDeserializer extends JsonDeserializer<Graph<?>> implements Con
 	public Graph<?> deserialize(JsonParser parser, DeserializationContext context)
 			throws IOException, JsonProcessingException {
 
-		/*
-		 * Wrapper<?> wrapper = new Wrapper<>();
-		 * wrapper.setValue(context.readValue(parser, type)); return wrapper;
-		 */
-
 		Graph<?> graph = new Graph<>();
-		// graph.setValue(context.readValue(parser, type));
-
 		ObjectMapper mapper = (ObjectMapper) parser.getCodec();
 
 		JavaType setType = mapper.getTypeFactory().constructCollectionType(Set.class, type);
@@ -59,16 +52,7 @@ public class GraphDeserializer extends JsonDeserializer<Graph<?>> implements Con
 
 	@Override
 	public JsonDeserializer<?> createContextual(DeserializationContext context, BeanProperty property) {
-
-		/*
-		 * JavaType wrapperType = property.getType().containedType(0); return new
-		 * WrapperDeserializer(wrapperType);
-		 */
-
 		JavaType type = property.getType().containedType(0);
-		// type.getContentType();
-//		this.type = type.getKeyType(); // key type
-//		return this;
 		return new GraphDeserializer(type);
 	}
 }

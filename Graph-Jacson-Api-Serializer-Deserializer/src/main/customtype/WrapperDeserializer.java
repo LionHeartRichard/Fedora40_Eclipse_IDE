@@ -11,16 +11,14 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.deser.ContextualDeserializer;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
+@NoArgsConstructor
+@AllArgsConstructor
 public class WrapperDeserializer extends JsonDeserializer<Wrapper<?>> implements ContextualDeserializer {
 
 	private JavaType type;
-
-	public WrapperDeserializer() {
-	}
-
-	private WrapperDeserializer(JavaType type) {
-		this.type = type;
-	}
 
 	@Override
 	public Wrapper<?> deserialize(JsonParser parser, DeserializationContext context) throws IOException {

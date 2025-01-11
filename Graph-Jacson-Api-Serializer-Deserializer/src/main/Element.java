@@ -8,5 +8,5 @@ import lombok.Setter;
 public class Element {
 	private int idElemnt;
 	private String nameElemnt;
-	private Graph<Human> graphElement;
+	private Graph<User> graphElement;
 }
