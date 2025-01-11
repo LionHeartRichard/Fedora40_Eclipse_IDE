@@ -1,16 +1,16 @@
 package main;
 
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.EXISTING_PROPERTY, property = "type", visible = true)
-@JsonSubTypes({ @JsonSubTypes.Type(value = User.class, name = "USER") })
 public interface Human {
-	public String getId();
 
-	public void setId(String id);
+	String getType();
 
-	public String getName();
+	void setType(String type);
 
-	public void setName(String name);
+	String getId();
+
+	void setId(String id);
+
+	String getName();
+
+	void setName(String name);
 }

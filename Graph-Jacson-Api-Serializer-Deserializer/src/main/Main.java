@@ -21,7 +21,7 @@ public class Main {
 
 	public static void main(String[] args) throws IOException {
 
-		Set<User> users = new HashSet<>();
+		Set<Human> users = new HashSet<>();
 		User us1 = new User("1", "User1");
 		users.add(us1);
 		User us2 = new User("2", "User2");
@@ -29,11 +29,11 @@ public class Main {
 		User us3 = new User("3", "User3");
 		users.add(us3);
 
-		User root = new User("0", "ROOT");
-		Map<User, Set<User>> adjacent = new HashMap<>();
+		Human root = new Person("0", "ROOT");
+		Map<Human, Set<Human>> adjacent = new HashMap<>();
 		adjacent.put(root, users);
 
-		Graph<User> graph = new Graph<>();
+		Graph<Human> graph = new Graph<>();
 		graph.setAdjacencyList(adjacent);
 		Element element = new Element();
 		element.setIdElemnt(12);
@@ -70,6 +70,11 @@ public class Main {
 
 			SimpleModule module = new SimpleModule();
 			module.addDeserializer(Graph.class, new GraphDeserializer());
+
+			module.addKeyDeserializer(Human.class, new HumanKeyDeserializer());
+
+			module.addDeserializer(Human.class, new HumanDeserializer());
+
 			mapper.registerModule(module);
 
 			Element readValue = mapper.readValue(json, Element.class);

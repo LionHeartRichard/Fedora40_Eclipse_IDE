@@ -12,11 +12,11 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@JsonTypeName("USER")
 public class User implements Human {
 
-	private String id;
-	private String name;
+	protected String type;
+	protected String id;
+	protected String name;
 
 	public User() {
 	}
@@ -24,12 +24,14 @@ public class User implements Human {
 	@JsonCreator
 	public User(String user) {
 		String[] filds = user.split(",");
-		this.id = filds[0];
-		this.name = filds[1];
+		this.type = filds[0];
+		this.id = filds[1];
+		this.name = filds[2];
 	}
 
 	@JsonCreator
 	public User(@JsonProperty("id") String id, @JsonProperty("name") String name) {
+		this.type = "USER";
 		this.id = id;
 		this.name = name;
 	}
@@ -49,19 +51,9 @@ public class User implements Human {
 		return Objects.hash(id, name);
 	}
 
-//	@Override 
-//	@JsonValue // Предоставляет строковое представление объекта при сериализации.
-//	public String toString() { return "ID: " + id + ", Name: " + name; }
-
-//	@Override
-//	@JsonValue
-//	public String toString() {
-//		return "{\"id\":\"" + id + "\"name\":\"" + name + "\", \"type\":\"USER\"}";
-//	}
-
 	@Override
 	@JsonValue
 	public String toString() {
-		return id + "," + name;
+		return type + "," + id + "," + name;
 	}
 }
