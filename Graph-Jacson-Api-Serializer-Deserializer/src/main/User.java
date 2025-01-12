@@ -4,7 +4,6 @@ import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 import lombok.Getter;
@@ -19,14 +18,6 @@ public class User implements Human {
 	protected String name;
 
 	public User() {
-	}
-
-	@JsonCreator
-	public User(String user) {
-		String[] filds = user.split(",");
-		this.type = filds[0];
-		this.id = filds[1];
-		this.name = filds[2];
 	}
 
 	@JsonCreator

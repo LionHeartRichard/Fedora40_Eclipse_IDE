@@ -20,7 +20,7 @@ public class HumanDeserializer extends JsonDeserializer<Human> {
 		String value = node.textValue();
 		String[] filds = value.split(",");
 		if (filds.length != 3)
-			throw new IOException("Invalid key format: " + value);
+			throw new IOException("Invalid value format: " + value);
 
 		String type = filds[0];
 		String id = filds[1];

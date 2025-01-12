@@ -8,7 +8,7 @@ import com.fasterxml.jackson.databind.KeyDeserializer;
 public class HumanKeyDeserializer extends KeyDeserializer {
 
 	@Override
-	public Object deserializeKey(String key, DeserializationContext ctxt) throws IOException {
+	public Object deserializeKey(String key, DeserializationContext context) throws IOException {
 
 		String[] filds = key.split(",");
 		if (filds.length != 3)
