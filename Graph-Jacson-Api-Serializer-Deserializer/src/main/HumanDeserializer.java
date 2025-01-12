@@ -17,12 +17,21 @@ public class HumanDeserializer extends JsonDeserializer<Human> {
 		ObjectMapper mapper = new ObjectMapper();
 		JsonNode node = mapper.readTree(jsonParser);
 
-		if (node.get("type").asText().equals("USER")) {
-			return mapper.treeToValue(node, User.class);
-		} else if (node.get("type").asText().equals("PERSON")) {
-			return mapper.treeToValue(node, Person.class);
-		}
+		String value = node.textValue();
+		String[] filds = value.split(",");
+		if (filds.length != 3)
+			throw new IOException("Invalid key format: " + value);
 
-		throw new IOException("Unknown type: " + node.get("type"));
+		String type = filds[0];
+		String id = filds[1];
+		String name = filds[2];
+
+		if ("USER".equals(type)) {
+			return new User(id, name);
+		} else if ("PERSON".equals(type)) {
+			return new Person(id, name);
+		} else {
+			throw new IOException("Unknown type: " + type);
+		}
 	}
 }

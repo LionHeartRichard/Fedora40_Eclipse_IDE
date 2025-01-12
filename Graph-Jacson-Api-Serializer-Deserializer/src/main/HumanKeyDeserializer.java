@@ -9,14 +9,14 @@ public class HumanKeyDeserializer extends KeyDeserializer {
 
 	@Override
 	public Object deserializeKey(String key, DeserializationContext ctxt) throws IOException {
-		// Важно: предполагается формат "type,id,name"
-		String[] parts = key.split(",");
-		if (parts.length != 3)
+
+		String[] filds = key.split(",");
+		if (filds.length != 3)
 			throw new IOException("Invalid key format: " + key);
 
-		String type = parts[0];
-		String id = parts[1];
-		String name = parts[2];
+		String type = filds[0];
+		String id = filds[1];
+		String name = filds[2];
 
 		if ("USER".equals(type)) {
 			return new User(id, name);
