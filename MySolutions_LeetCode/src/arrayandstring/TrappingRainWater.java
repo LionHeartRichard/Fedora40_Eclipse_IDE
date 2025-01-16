@@ -12,42 +12,35 @@ import org.junit.jupiter.api.Test;
 public class TrappingRainWater {
 	public int trap(int[] height) {
 
-		/*
-		 * leftIdx and rightIdx!!!!
-		 */
+		int totalWater = 0;
+		// классическое начало для алгоритмов левый и правый указатель
+		//
+		int leftIdx = 0, rightIdx = height.length - 1;
 
-		int slowIdx = 0, fastIdx = 0, len = height.length;
-		// создаем кэш предварительных результатов
-		int[] cache = new int[len];
-		int ans = 0;
-		// используя быстрый и медленный указатель перемещяемся по высотам
-		// медленный находит первую не нулевую высоту - которая барьер,
-		// быстрый ищет следующую, перемножаем результат этих высот
-		// далее внутри них двигаемся вычитая высоты встречающиеся на пути
-		// после заносим в кэш
-		while (slowIdx < len && fastIdx < len) {
-			if (slowIdx + 1 < len && height[slowIdx] == 0 && height[slowIdx] < height[slowIdx + 1]) {
-				++slowIdx;
-			} else if (slowIdx + 1 < len) {
-				fastIdx = slowIdx + 1;
-				while (fastIdx < len && height[fastIdx] < height[slowIdx]) {
-					++fastIdx;
+		// создаем базовые элементы по которым будем считать уровень воды
+		// очень важно что начинаем базового исходить что левый "борт" равен 0, а вот
+		// правый равен крайнему элементу соответственно
+		int lMax = 0, rMax = height[rightIdx];
+
+		// создаем классический цикл при реализации паттерна левый и правый указатель
+		while (leftIdx < rightIdx) {
+			if (height[leftIdx] <= height[rightIdx]) {
+				if (height[leftIdx] < lMax) {
+					totalWater += lMax - height[leftIdx];
+				} else {
+					lMax = height[leftIdx];
 				}
-				int tmp = height[slowIdx] * (fastIdx - slowIdx - 1);
-				while (slowIdx < fastIdx - 1) {
-					tmp -= height[++slowIdx];
+				++leftIdx;
+			} else {
+				if (height[rightIdx] < rMax) {
+					totalWater += rMax - height[rightIdx];
+				} else {
+					rMax = height[rightIdx];
 				}
-				if (tmp > 0)
-					cache[slowIdx] = tmp;
+				--rightIdx;
 			}
 		}
-		// в цикле складываем кэш и получаем результат
-
-		for (int item : cache) {
-			ans += item;
-		}
-
-		return ans;
+		return totalWater;
 	}
 
 	@Test
@@ -85,6 +78,16 @@ public class TrappingRainWater {
 		int[] height = { 2, 0, 0, 0, 4, 0, 0, 0, 0, 0, 4, 0, 0, 2 };
 
 		int expected = 30;
+		int actual = trap(height);
+
+		assertEquals(expected, actual);
+	}
+
+	@Test
+	public void case5() {
+		int[] height = { 4, 2, 3 };
+
+		int expected = 1;
 		int actual = trap(height);
 
 		assertEquals(expected, actual);
