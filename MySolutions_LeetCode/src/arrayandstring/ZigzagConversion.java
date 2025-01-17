@@ -20,23 +20,31 @@ Y I R
 public class ZigzagConversion {
 	public String convert(String source, int numbersRows) {
 
+		// обработка крайних случаев
 		if (numbersRows == 1 || numbersRows >= source.length())
 			return source;
 
+		// инициализируем массив блдеров
+		// в нем будем формировать предварительный ответ
 		StringBuilder[] rows = new StringBuilder[Math.min(numbersRows, source.length())];
-		for (int i = 0; i < rows.length; ++i)
-			rows[i] = new StringBuilder();
+		int len = rows.length;
+		for (int idx = 0; idx < len; ++idx)
+			rows[idx] = new StringBuilder();
 
-		int curRow = 0;
+		int rowIdx = 0;
 		boolean goingDown = false;
 
-		for (char c : source.toCharArray()) {
-			rows[curRow].append(c);
-			if (curRow == 0 || curRow == numbersRows - 1)
+		// перебираем все символы строки
+		for (char ch : source.toCharArray()) {
+			rows[rowIdx].append(ch);
+			// обеспечиваем бемконечный перебор
+			if (rowIdx == 0 || rowIdx == len - 1)
 				goingDown = !goingDown;
-			curRow += goingDown ? 1 : -1;
+			// перебор в стиле покачивающегося/реверсивного револьвера
+			rowIdx += goingDown ? 1 : -1;
 		}
 
+		// формируем ответ
 		StringBuilder ans = new StringBuilder();
 		for (StringBuilder row : rows)
 			ans.append(row);
