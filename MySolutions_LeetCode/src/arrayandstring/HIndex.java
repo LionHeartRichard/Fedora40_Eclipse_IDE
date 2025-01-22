@@ -62,16 +62,6 @@ public class HIndex {
 		assertEquals(expected, actual);
 	}
 
-//	@Test
-//	public void case3() {
-//		int[] citations = { 9, 8, 7, 1, 1, 1, 1, 1, 1 };
-//
-//		int expected = 5;
-//		int actual = hIndex(citations);
-//
-//		assertEquals(expected, actual);
-//	}
-
 	@Test
 	public void case4() {
 		int[] citations = { 100 };

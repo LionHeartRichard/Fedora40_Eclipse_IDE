@@ -4,18 +4,21 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
 
+/*
+ * Вам дан целочисленный массив цен, где цены[i] — это цена данной акции на i-й день.
+ * Каждый день вы можете решить купить и/или продать акцию. 
+ * Вы можете держать не более одной акции в любой момент времени. 
+ * Однако вы можете купить ее, а затем немедленно продать в тот же день.
+ * Найдите и верните максимальную прибыль, которую вы можете получить.
+ */
+
 public class BestTimeToBuyAndSellStock2 {
 
 	public int maxProfit(int[] prices) {
-
 		int totalSum = 0;
-
-		for (int i = 1; i < prices.length; ++i) {
-			if (prices[i - 1] < prices[i]) {
-				totalSum += prices[i] - prices[i - 1];
-			}
+		for (int idx = 1; idx < prices.length; ++idx) {
+			totalSum += Math.max(0, prices[idx] - prices[idx - 1]);
 		}
-
 		return totalSum;
 	}
 

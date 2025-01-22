@@ -3,7 +3,6 @@ package arrayandstring;
 import static org.junit.Assert.assertNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.util.Objects;
 
 import org.junit.jupiter.api.Test;
 
@@ -19,26 +18,22 @@ public class MajorityElement {
 		int count = 0;
 
 		// 1-й проход: Нахождение числа кандидата
-		for (int num : nums) {
-			// берем первое попавшееся число и говорим что оно кандидат
-			if (count == 0) {
-				candidate = num;
-			}
+		for (int idx = 0; idx < nums.length; ++idx) {
+			candidate = count == 0 ? nums[idx] : candidate;
 			// за счет счетчика мы определяем число кандидат
 			// если число мало встречается то мы в конце концов обнулим счетчик
 			// и получим число кандидат
-			count += (num == candidate) ? 1 : -1;
+			count += nums[idx] == candidate ? 1 : -1;
 		}
 
 		// 2-й проход: Проверка кандидата
 		count = 0;
-		for (int num : nums) {
-			if (num == candidate) {
-				count++;
-			}
+		for (int idx = 0; idx < nums.length; ++idx) {
+			count += nums[idx] == candidate ? 1 : 0;
 		}
 
-		return (count > nums.length / 2) ? candidate : null;
+		// если мы нашли кандидата, то возвращяем его иначе null
+		return count > nums.length / 2 ? candidate : null;
 	}
 
 	@Test
