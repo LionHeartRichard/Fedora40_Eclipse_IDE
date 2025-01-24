@@ -8,9 +8,7 @@ import java.util.Set;
 
 import org.junit.jupiter.api.Test;
 
-import topalgorithm.roadmap.slidingwindow.SlidingWindow;
-
-public class SlidingWindowIntersectingWindow implements SlidingWindow {
+public class SlidingWindowIntersectingWindow {
 
 	/*
 	 * Задача 1- Цепочка уникальных генов?! Найти самую длинную цепочку генов без
@@ -22,13 +20,13 @@ public class SlidingWindowIntersectingWindow implements SlidingWindow {
 	public int findUniqueGen(String gen) {
 		int len = gen.length();
 		int maxLenGen = 0;
-		
+
 		int quickIdx = 0;
 		int idx = 0;
-		
+
 		char[] arrayCh = gen.toCharArray();
 		Set<Character> uniqueGen = new HashSet<>();
-		
+
 		while (quickIdx < len) {
 			if (uniqueGen.contains(arrayCh[quickIdx])) {
 				uniqueGen.remove(arrayCh[idx++]);
@@ -45,7 +43,7 @@ public class SlidingWindowIntersectingWindow implements SlidingWindow {
 		int maxlen = 0, quickIdx = 0, idx = 0;
 		int[] mapping = new int[128]; // Array to keep track of last seen index of the particular ascii val character
 		Arrays.fill(mapping, -1);
-		
+
 		for (quickIdx = 0; quickIdx < str.length(); ++quickIdx) {
 			char ch = str.charAt(quickIdx);
 			if (mapping[ch] >= idx) {

@@ -2,8 +2,6 @@ package arrayandstring;
 
 import static org.junit.Assert.assertEquals;
 
-import java.util.Arrays;
-
 import org.junit.jupiter.api.Test;
 
 /*
@@ -11,31 +9,27 @@ import org.junit.jupiter.api.Test;
  */
 
 public class HIndex {
-
-	// алгоритм похож на алгоритм ключ значение значение ключ - при использовании
-	// хэш таблиц
-	// только тут мы меняем значение на индекс!!!
-	// можем применять всегда - когда ответ не может превышать длину массива!!!
+	// Паттерн КЛЮЧ-Значение/ЗНАЧЕНИЕ-Ключ
 	public int hIndex(int[] citations) {
-
-		// потенциально самый большой HIndex будет равен количеству пубикаций
+		// так как максимальный ответ - значение (Value) не может превышать length
+		// то используем в качестве структуры данных массив
+		// создаем кэш который будет хранит Value = Key (Idx)
+		// кэш который содержит потенциальные ответы
+		// value = idx!!!!!!!!!!!
 		int len = citations.length;
-		// создаем кэш потенциальных ответов
 		int[] cache = new int[len + 1];
-		for (int countCitation : citations) {
-			// кэшируем возможные ответы
-			// считаем количество одинаково цитируемых работ
-			cache[Math.min(len, countCitation)]++;
+		// используем значение в качестве ключа-индекса
+		for (int value : citations) {
+			++cache[Math.min(value, len)];
 		}
 
-		int countWorks = 0;
-		// потенциально в конце может быть наибольший из возможных hIdx
-		// классическая ситуация для этого паттерна
-		for (int hIdx = len; hIdx >= 0; --hIdx) {
-			countWorks += cache[hIdx];
-			// если мы получили достаточное количество работ то это и есть искомый hIdx
-			if (countWorks >= hIdx) {
-				return hIdx;
+		// формируем ответ согласно задачи
+		// ответ в таком паттерне это всегда зависимотсть ключа-индекса от значения
+		int currentValue = 0;
+		for (int idx = len; idx >= 0; --idx) {
+			currentValue += cache[idx];
+			if (currentValue >= idx) {
+				return idx;
 			}
 		}
 		return 0;

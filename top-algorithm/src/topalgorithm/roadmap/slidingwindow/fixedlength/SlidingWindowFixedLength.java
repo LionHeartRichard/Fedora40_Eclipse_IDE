@@ -2,9 +2,8 @@ package topalgorithm.roadmap.slidingwindow.fixedlength;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
-import topalgorithm.roadmap.slidingwindow.SlidingWindow;
 
-public class SlidingWindowFixedLength implements SlidingWindow {
+public class SlidingWindowFixedLength {
 	/*
 	 * Дан целочисленный массив нужно вернуть максимальную сумму k-подряд идущих
 	 * элементов
@@ -14,18 +13,19 @@ public class SlidingWindowFixedLength implements SlidingWindow {
 
 	public int findMaxSumSlidingWindow(int[] nums, int k) {
 
-		int maxSum = 0;
+		// находим сумму всех элементов
+		int totalSum = 0;
 		for (int idx = 0; idx < k; ++idx) {
-			maxSum += nums[idx];
+			totalSum += nums[idx];
 		}
 
-		int currentSum = maxSum;
+		int currentSum = totalSum;
 		for (int idx = k; idx < nums.length; ++idx) {
 			currentSum = currentSum - nums[idx - k] + nums[idx];
-			if (maxSum < currentSum)
-				maxSum = currentSum;
+			if (totalSum < currentSum)
+				totalSum = currentSum;
 		}
-		return maxSum;
+		return totalSum;
 	}
 
 	@Test
