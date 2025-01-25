@@ -24,26 +24,26 @@ public class KeyValue_ValueKey {
 	 */
 
 	public int[] valueKey_keyValue(int[] nums, int k) {
-		// Первая стадия создаем мапу в которой значение = ключ
-		int len = nums.length;
-		Map<Integer, Integer> cacheMap = new HashMap<>();
+		// 1) Алоцируем мапу в которой КЛЮЧ = ЗНАЧЕНИЕ
+		Map<Integer, Integer> mapCache = new HashMap<>();
 		for (int value : nums) {
-			cacheMap.put(value, cacheMap.getOrDefault(value, 0) + 1);
+			mapCache.put(value, mapCache.getOrDefault(value, 0) + 1);
 		}
-		// Вторая стадия -2.1 Алацируем массив пустых списков
+		// 2.1) Алоцируем массив пустых списков
+		int len = nums.length;
 		List<Integer>[] cache = new List[len + 1];
 		for (int idx = 1; idx <= len; ++idx) {
 			cache[idx] = new ArrayList<>();
 		}
-		// 2.2----Непосредственно МЕНЯЕМ МЕСТАМИ кллюч-значение
-		for (int key : cacheMap.keySet()) {
-			cache[cacheMap.get(key)].add(key);
+		// 2.2) Меняем местами ключ-значение
+		for (int key : mapCache.keySet()) {
+			cache[mapCache.get(key)].add(key);
 		}
-		// Трятья - Формируем результат
+		// 3) Формируем ответ
 		List<Integer> ans = new ArrayList<>();
 		for (int idx = len; idx > 0; --idx) {
-			List<Integer> currentList = cache[idx];
-			for (int value : currentList) {
+			List<Integer> currentAns = cache[idx];
+			for (int value : currentAns) {
 				if (k <= 0)
 					return ans.stream().mapToInt(v -> v).toArray();
 				ans.add(value);

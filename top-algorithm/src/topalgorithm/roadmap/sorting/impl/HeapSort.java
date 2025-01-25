@@ -1,13 +1,16 @@
 package topalgorithm.roadmap.sorting.impl;
 
-import topalgorithm.roadmap.sorting.ArraySort;
+import static org.junit.Assert.assertArrayEquals;
 
-public class HeapSort implements ArraySort {
-	
-	//time: O [n*log n]
-	//memory: O [n*log n]
+import java.util.Arrays;
 
-	@Override
+import org.junit.jupiter.api.Test;
+
+public class HeapSort {
+
+	// time: O [n*log n]
+	// memory: O [n*log n]
+
 	public void sort(int[] arr) {
 		int len = arr.length;
 
@@ -43,22 +46,15 @@ public class HeapSort implements ArraySort {
 		}
 	}
 
-	@Override
-	public void sort(long[] arr) {
-		// TODO Auto-generated method stub
+	@Test
+	public void sortArrayIntTest() {
+		int[] actual = { 6, -9, 10, 97, 0, 56, -1, 30, 10 };
+		int[] expected = Arrays.copyOf(actual, actual.length);
+		Arrays.sort(expected);
 
-	}
+		sort(actual);
 
-	@Override
-	public void sort(double[] arr) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void sort(float[] arr) {
-		// TODO Auto-generated method stub
-
+		assertArrayEquals(expected, actual);
 	}
 
 }

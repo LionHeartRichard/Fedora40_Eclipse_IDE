@@ -6,11 +6,8 @@ import java.util.Arrays;
 
 import org.junit.jupiter.api.Test;
 
-import topalgorithm.roadmap.sorting.ArraySort;
+public class QuickSort {
 
-public class QuickSort implements ArraySort {
-
-	@Override
 	public void sort(int[] arr) {
 		int len = arr.length;
 		int begin = 0;
@@ -42,24 +39,6 @@ public class QuickSort implements ArraySort {
 		arr[currentIdx] = arr[end];
 		arr[end] = swapItem;
 		return currentIdx;
-	}
-
-	@Override
-	public void sort(long[] arr) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void sort(double[] arr) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void sort(float[] arr) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Test

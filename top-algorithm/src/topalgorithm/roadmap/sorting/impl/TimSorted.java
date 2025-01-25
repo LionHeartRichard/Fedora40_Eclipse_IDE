@@ -1,15 +1,12 @@
 package topalgorithm.roadmap.sorting.impl;
 
-import topalgorithm.roadmap.sorting.ArraySort;
-
-public class TimSorted implements ArraySort {
+public class TimSorted {
 
 	// time: O [n*log n]
 	// memory: O [n*log n]
 
 	private static int THRESHOLD = 32;
 
-	@Override
 	public void sort(int[] arr) {
 		int len = arr.length;
 		for (int beginIdx = 0; beginIdx < len; beginIdx += THRESHOLD) {
@@ -80,23 +77,4 @@ public class TimSorted implements ArraySort {
 			arr[currentIdx++] = arrayRight[rightIdx++];
 		}
 	}
-
-	@Override
-	public void sort(long[] arr) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void sort(double[] arr) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void sort(float[] arr) {
-		// TODO Auto-generated method stub
-
-	}
-
 }
