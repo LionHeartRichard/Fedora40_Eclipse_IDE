@@ -32,12 +32,14 @@ public class Sum3 {
 		// перемещятся по всему массиву
 		// два других будут расчитыватся исходя из опорного
 		// пусть опорным будет i
+		// исключаем повторение индексов при помощи Set<Integer> cache
 		for (int i = 0; i < len; ++i) {
 			// декомпозируем задачу
-			cache.add(i);
-			int[] arrFindIdx = twoSum(nums, -nums[i], len);
-			if (arrFindIdx.length != 0) {
-				ans.add(new ArrayList<>(Arrays.asList(nums[arrFindIdx[0]], nums[arrFindIdx[1]], nums[i])));
+			if (cache.add(i)) {
+				int[] arrFindIdx = twoSum(nums, -nums[i], len);
+				if (arrFindIdx.length != 0) {
+					ans.add(new ArrayList<>(Arrays.asList(nums[arrFindIdx[0]], nums[arrFindIdx[1]], nums[i])));
+				}
 			}
 			if (cache.size() == len)
 				break;
@@ -81,7 +83,7 @@ public class Sum3 {
 		expected.add(expectedSubListB);
 		List<List<Integer>> actual = threeSum(nums);
 
-		for (int idx = 0; idx < actual.size(); ++idx) {
+		for (int idx = 0; idx < expected.size(); ++idx) {
 			List<Integer> currentExpected = expected.get(idx);
 			List<Integer> currentActual = actual.get(idx);
 			assertThat(currentExpected).containsExactlyInAnyOrderElementsOf(currentActual);
@@ -94,6 +96,22 @@ public class Sum3 {
 
 		List<List<Integer>> expected = new ArrayList<>();
 		List<Integer> expectedSubListA = new ArrayList<>(Arrays.asList(0, 0, 0));
+		expected.add(expectedSubListA);
+		List<List<Integer>> actual = threeSum(nums);
+
+		for (int idx = 0; idx < actual.size(); ++idx) {
+			List<Integer> currentExpected = expected.get(idx);
+			List<Integer> currentActual = actual.get(idx);
+			assertThat(currentExpected).containsExactlyInAnyOrderElementsOf(currentActual);
+		}
+	}
+
+	@Test
+	public void case3() {
+		int[] nums = { -1, 0, 1, 0 };
+
+		List<List<Integer>> expected = new ArrayList<>();
+		List<Integer> expectedSubListA = new ArrayList<>(Arrays.asList(-1, 0, 1));
 		expected.add(expectedSubListA);
 		List<List<Integer>> actual = threeSum(nums);
 
