@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 import com.sun.net.httpserver.HttpServer;
 
-public class Practicum {
+class Practicum {
 	private static final int PORT = 8080;
 
 	public static void main(String[] args) throws IOException {
