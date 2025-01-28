@@ -45,32 +45,41 @@ class PostsHandler implements HttpHandler {
 	}
 
 	private void handlePostComments(HttpExchange exchange) throws IOException {
-        // реализуйте обработку запроса на добавление комментария
-
-        // извлеките идентификатор поста и обработайте исключительные ситуации
-        ...
-        int postId = ...;
-
-        // получите комментарий из тела запроса
-        // не забудьте обработать исключительные ситуации
-        ... parseComment(exchange.getRequestBody());
-        ...
-        Comment comment = ...;
-
-        // добавьте комментарий к указанном посту
-        // не забудьте обработать ситуацию, когда пост не найден
-        ...
-    }
+		Optional<Integer> postIdOpt = getPostId(exchange);
+		if (postIdOpt.isEmpty()) {
+			writeResponse(exchange, "Некорректный идентификатор поста", 400);
+			return;
+		}
+		int postId = postIdOpt.get();
+		Optional<Comment> optComment = parseComment(exchange.getRequestBody());
+		if (optComment.isEmpty()) {
+			writeResponse(exchange, "Поля комментария не могут быть пустыми", 400);
+			return;
+		}
+		for (int idx = 0; idx < posts.size(); ++idx) {
+			Post post = posts.get(idx);
+			if (post.getId() == postId) {
+				Comment comment = optComment.get();
+				posts.get(idx).addComment(comment);
+				writeResponse(exchange, "Комментарий добавлен", 201);
+				return;
+			}
+		}
+		writeResponse(exchange, "Пост с идентификатором " + postId + " не найден", 404);
+	}
 
 	private Optional<Comment> parseComment(InputStream bodyInputStream) throws IOException {
-        // реализуйте код, разбирающий тело запроса и конструирующий объект комментария
-        
-        String body = ...;
-
-        /* Проанализируйте тело запроса и получите из него имя пользователя и текст комментария. 
-           Вам могут помочь методы indexOf и substring класса String. */
-        ...
-    }
+		if (bodyInputStream == null)
+			return Optional.empty();
+		String body = new String(bodyInputStream.readAllBytes(), DEFAULT_CHARSET);
+		String[] fields = body.split("\n");
+		if (fields.length == 1 || fields[0].isEmpty() || fields[1].isEmpty())
+			return Optional.empty();
+		String name = fields[0];
+		int beginIdx = body.indexOf(fields[1]);
+		String text = body.substring(beginIdx);
+		return Optional.of(new Comment(name, text));
+	}
 
 	private void handleGetPosts(HttpExchange exchange) throws IOException {
 		String response = posts.stream().map(Post::toString).collect(Collectors.joining("\n"));
@@ -158,7 +167,7 @@ public class Practicum {
 
 		System.out.println("HTTP-сервер запущен на " + PORT + " порту!");
 		// завершаем работу сервера для корректной работы тренажёра
-		httpServer.stop(1);
+		// httpServer.stop(1);
 	}
 }
 

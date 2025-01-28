@@ -4,9 +4,6 @@ import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 
-import finaltasksthree.Comment;
-import finaltasksthree.Post;
-
 import java.io.*;
 import java.net.InetSocketAddress;
 import java.nio.charset.Charset;
