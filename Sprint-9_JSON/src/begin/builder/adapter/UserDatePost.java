@@ -18,4 +18,10 @@ public class UserDatePost {
 	private String description;
 	private int likesQuantity;
 	private LocalDate publishDate;
+
+	@Override
+	public String toString() {
+		return "UserPost{" + "photoUrl='" + photoUrl + '\'' + ", publishDate=" + publishDate + ", userId=" + userId
+				+ ", description='" + description + '\'' + ", likesQuantity=" + likesQuantity + '}';
+	}
 }
