@@ -12,55 +12,39 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
-???SubtitleLanguage{
-
+//****
+class SubtitleLanguage {
+//****
 }
 
 class SubtitleItem {
-	...values=new HashMap<>();
+	private Map<SubtitleLanguage, String> values = new HashMap<>();
+	private LocalTime begin;
+	private LocalTime end;
 
-	...begin;
-
-	...end;
-
-	// геттеры и сеттеры
-
-	@Override
-    public boolean equals(Object o) {
-       ...
-    }
-
-	@Override
-    public int hashCode() {
-       ...
-    }
-
-	public SubtitleItem(...) {
-			...
-    }
+	// generate method: equals/hashCode
+	// constructor
 }
 
-	class SubtitleListTypeToken extends???
-	{
+class SubtitleListTypeToken extends TypeToken<List<SubtitleItem>> {
 
-		}
+}
 
-		class LocalTimeTypeAdapter extends???
-		{
-	private final DateTimeFormatter timeFormatter = ???
+class LocalTimeTypeAdapter extends TypeAdapter<LocalTime> {
+	private final DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss.SSSS");
 
 	@Override
-    public void write(???) throws IOException {
-
-    }
+	public void write(final JsonWriter jsonWriter, final LocalTime localTime) throws IOException {
+		jsonWriter.value(localTime.format(timeFormatter));
+	}
 
 	@Override
-    public LocalTime read(???) throws IOException {
+	public LocalTime read(final JsonReader jsonReader) throws IOException {
+		return LocalTime.parse(jsonReader.nextString(), timeFormatter);
+	}
+}
 
-    }
-		}
-
-		public class Practicum {
+public class Practicum {
 
 	public static void main(String[] args) {
         List<SubtitleItem> subtitles = Arrays.asList(
