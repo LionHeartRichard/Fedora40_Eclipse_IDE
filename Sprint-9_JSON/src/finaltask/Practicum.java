@@ -7,14 +7,18 @@ import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import java.io.IOException;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
-//****
-class SubtitleLanguage {
-//****
+enum SubtitleLanguage {
+	ru, en, cn
 }
 
 class SubtitleItem {
@@ -22,12 +26,62 @@ class SubtitleItem {
 	private LocalTime begin;
 	private LocalTime end;
 
-	// generate method: equals/hashCode
-	// constructor
+	public SubtitleItem() {
+		super();
+	}
+
+	public SubtitleItem(Map<SubtitleLanguage, String> values, LocalTime begin, LocalTime end) {
+		super();
+		this.values = values;
+		this.begin = begin;
+		this.end = end;
+	}
+
+	public Map<SubtitleLanguage, String> getValues() {
+		return values;
+	}
+
+	public void setValues(Map<SubtitleLanguage, String> values) {
+		this.values = values;
+	}
+
+	public LocalTime getBegin() {
+		return begin;
+	}
+
+	public void setBegin(LocalTime begin) {
+		this.begin = begin;
+	}
+
+	public LocalTime getEnd() {
+		return end;
+	}
+
+	public void setEnd(LocalTime end) {
+		this.end = end;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(begin, end, values);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		SubtitleItem other = (SubtitleItem) obj;
+		return Objects.equals(begin, other.begin) && Objects.equals(end, other.end)
+				&& Objects.equals(values, other.values);
+	}
+
 }
 
 class SubtitleListTypeToken extends TypeToken<List<SubtitleItem>> {
-
 }
 
 class LocalTimeTypeAdapter extends TypeAdapter<LocalTime> {
@@ -47,48 +101,33 @@ class LocalTimeTypeAdapter extends TypeAdapter<LocalTime> {
 public class Practicum {
 
 	public static void main(String[] args) {
-        List<SubtitleItem> subtitles = Arrays.asList(
-                new SubtitleItem(Map.of(SubtitleLanguage.ru, "Здравствуйте!",
-                        SubtitleLanguage.en, "Hello!",
-                        SubtitleLanguage.cn, "Ni hao"),
-                        LocalTime.of(0, 0, 15),
-                        LocalTime.of(0, 0, 17)
-                ),
-                new SubtitleItem(Map.of(SubtitleLanguage.ru, "Привет!",
-                        SubtitleLanguage.en, "Hi!",
-                        SubtitleLanguage.cn, "Ni hao"),
-                        LocalTime.of(0, 0, 21),
-                        LocalTime.of(0, 0, 24)
-                ),
-                new SubtitleItem(Map.of(SubtitleLanguage.ru, "Как дела?",
-                        SubtitleLanguage.en, "How are you?",
-                        SubtitleLanguage.cn, "Ni hao ma"),
-                        LocalTime.of(0, 0, 28),
-                        LocalTime.of(0, 0, 31)
-                ),
-                new SubtitleItem(Map.of(SubtitleLanguage.ru, "Всё хорошо, спасибо!",
-                        SubtitleLanguage.en, "I'm fine, thank you!",
-                        SubtitleLanguage.cn, "Wo hen hao, xie xie"),
-                        LocalTime.of(0, 0, 34),
-                        LocalTime.of(0, 0, 37)
-                )
-        );
-        
-        // адаптер для преобразования типа LocalTime в String в формате субтитров
-        ??? localTimeTypeAdapter = ???
-        
-        GsonBuilder gsonBuilder = new GsonBuilder();
-        gsonBuilder.???
-        Gson gson = gsonBuilder.???
+		List<SubtitleItem> subtitles = Arrays.asList(
+				new SubtitleItem(Map.of(SubtitleLanguage.ru, "Здравствуйте!", SubtitleLanguage.en, "Hello!",
+						SubtitleLanguage.cn, "Ni hao"), LocalTime.of(0, 0, 15), LocalTime.of(0, 0, 17)),
+				new SubtitleItem(Map.of(SubtitleLanguage.ru, "Привет!", SubtitleLanguage.en, "Hi!", SubtitleLanguage.cn,
+						"Ni hao"), LocalTime.of(0, 0, 21), LocalTime.of(0, 0, 24)),
+				new SubtitleItem(Map.of(SubtitleLanguage.ru, "Как дела?", SubtitleLanguage.en, "How are you?",
+						SubtitleLanguage.cn, "Ni hao ma"), LocalTime.of(0, 0, 28), LocalTime.of(0, 0, 31)),
+				new SubtitleItem(
+						Map.of(SubtitleLanguage.ru, "Всё хорошо, спасибо!", SubtitleLanguage.en, "I'm fine, thank you!",
+								SubtitleLanguage.cn, "Wo hen hao, xie xie"),
+						LocalTime.of(0, 0, 34), LocalTime.of(0, 0, 37)));
 
-        String subtitlesJson = gson.toJson(???);
-        System.out.println(subtitlesJson);
+		// адаптер для преобразования типа LocalTime в String в формате субтитров
+		LocalTimeTypeAdapter localTimeTypeAdapter = new LocalTimeTypeAdapter();
 
-        List<SubtitleItem> parsed = gson.fromJson(???, ???);
-        if(parsed.equals(subtitles)) {
-            System.out.println("Субтитры десериализованы корректно.");
-        } else {
-            System.out.println("Произошла ошибка при десериализации.");
-        }
-    }
+		GsonBuilder gsonBuilder = new GsonBuilder();
+		gsonBuilder.setPrettyPrinting().registerTypeAdapter(LocalTime.class, localTimeTypeAdapter);
+		Gson gson = gsonBuilder.create();
+
+		String subtitlesJson = gson.toJson(subtitles);
+		System.out.println(subtitlesJson);
+
+		List<SubtitleItem> parsed = gson.fromJson(subtitlesJson, new SubtitleListTypeToken().getType());
+		if (parsed.equals(subtitles)) {
+			System.out.println("Субтитры десериализованы корректно.");
+		} else {
+			System.out.println("Произошла ошибка при десериализации.");
+		}
+	}
 }
