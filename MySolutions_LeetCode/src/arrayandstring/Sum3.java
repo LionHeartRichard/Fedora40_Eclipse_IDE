@@ -1,11 +1,11 @@
 package arrayandstring;
 
 import static org.assertj.core.api.Assertions.assertThat;
+
+import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.junit.jupiter.api.Test;
 
@@ -19,57 +19,59 @@ import org.junit.jupiter.api.Test;
 
 public class Sum3 {
 
-	Set<Integer> cache;
+	public List<List<Integer>> threeSum(int[] arr) {
+		AbstractList<List<Integer>> ans = new AbstractList<List<Integer>>() {
+			List<List<Integer>> swap;
 
-	public List<List<Integer>> threeSum(int[] nums) {
-		int len = nums.length;
-		// создаем кэш, для хранения промежуточных ответов
-		cache = new HashSet<>();
-		// сортируем массив
-		Arrays.sort(nums);
-		Set<List<Integer>> ans = new HashSet<>();
-		// создаем 3 указателя - выбираем из них опорный, который будет медленно
-		// перемещятся по всему массиву
-		// два других будут расчитыватся исходя из опорного
-		// пусть опорным будет i
-		// исключаем повторение индексов при помощи Set<Integer> cache
-		for (int i = 0; i < len; ++i) {
-			// декомпозируем задачу
-			if (cache.add(i)) {
-				int[] arrFindIdx = twoSum(nums, -nums[i], len);
-				if (arrFindIdx.length != 0) {
-					ans.add(new ArrayList<>(Arrays.asList(nums[arrFindIdx[0]], nums[arrFindIdx[1]], nums[i])));
-				}
+			@Override
+			public int size() {
+				if (swap == null)
+					swap = returnSwapList(arr);
+				return swap.size();
 			}
-			if (cache.size() == len)
-				break;
-		}
-		return new ArrayList<>(ans);
+
+			@Override
+			public List<Integer> get(int index) {
+				if (swap == null)
+					swap = returnSwapList(arr);
+				return swap.get(index);
+			}
+		};
+		return ans;
 	}
 
-	// реализация через правый и левый указатель
-	private int[] twoSum(int[] nums, int findNumber, int len) {
-		int leftIdx = 0;
-		int rightIdx = len - 1;
+	private List<List<Integer>> returnSwapList(int[] arr) {
+		int len = arr.length;
+		List<List<Integer>> ans = new ArrayList<>();
+		Arrays.sort(arr);
+
+		for (int idx = 0; idx < len - 2 && arr[idx] <= 0; ++idx) {
+			if (idx != 0 && arr[idx] == arr[idx - 1])
+				continue;
+			twoSum(idx + 1, -arr[idx], arr, ans);
+		}
+		return ans;
+	}
+
+	private void twoSum(int leftIdx, int target, int[] arr, List<List<Integer>> ans) {
+		int rightIdx = arr.length - 1;
+
 		while (leftIdx < rightIdx) {
-			while (leftIdx < rightIdx && cache.contains(leftIdx)) {
-				++leftIdx;
-			}
-			while (rightIdx > leftIdx && cache.contains(rightIdx))
+			if (arr[leftIdx] + arr[rightIdx] > target) {
 				--rightIdx;
-			int sum = nums[leftIdx] + nums[rightIdx];
-			if (sum == findNumber) {
-				cache.add(leftIdx);
-				cache.add(rightIdx);
-				return new int[] { leftIdx, rightIdx };
+				continue;
 			}
-			if (sum < findNumber) {
+			if (arr[leftIdx] + arr[rightIdx] < target) {
 				++leftIdx;
-			} else {
-				--rightIdx;
+				continue;
+			}
+
+			ans.add(Arrays.asList(-target, arr[leftIdx++], arr[rightIdx--]));
+
+			while (leftIdx <= rightIdx && arr[leftIdx] == arr[leftIdx - 1]) {
+				++leftIdx;
 			}
 		}
-		return new int[] {};
 	}
 
 	@Test
